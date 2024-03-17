@@ -1,0 +1,25 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "mysql"
+  url      = env("DATABASE_URL")
+}
+
+model User {
+  id       String    @id @default(uuid())
+  email    String    @unique
+  password String
+  workouts Workout[]
+}
+
+model Workout {
+  id       String    @id @default(uuid())
+  title    String   
+  reps     Int
+  load     Int
+  user     User      @relation(fields: [user_id], references: [id])
+  user_id   String
+  created_at  DateTime  @default(now())
+}
