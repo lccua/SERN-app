@@ -1,7 +1,7 @@
 import { useState } from "react";
 import { useLogin } from "../hooks/useLogin";
 
-const Login = () => {
+const ForgotPassword = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const { login, error, isLoading } = useLogin();
@@ -36,4 +36,4 @@ const Login = () => {
   );
 };
 
-export default Login;
+export default ForgotPassword;

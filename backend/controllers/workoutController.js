@@ -1,6 +1,5 @@
-const { PrismaClient } = require('@prisma/client');
+const prisma = require("../db/prismaClient")
 
-const prisma = new PrismaClient();
 
 // get all workouts
 const getWorkouts = async (req, res) => {
