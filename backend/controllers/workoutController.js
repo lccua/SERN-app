@@ -1,53 +1,56 @@
-const prisma = require("../db/prismaClient")
+const prisma = require("../db/client/prismaClient")
+const workoutService = require("../services/workout.service");
+const { ErrorHandler } = require("../helpers/error");
+
 
 
 // get all workouts
-const getWorkouts = async (req, res) => {
+const getAllWorkouts = async (req, res) => {
+  try {
+    
+    const userId = req.user.id; // Assuming req.user has the user ID
   
-  const user_id = req.user.id; // Assuming req.user has the user ID
-  const workouts = await prisma.workout.findMany({
-    where: { user_id },
-  });
+    const workouts = await workoutService.getAllWorkouts( userId );
+    
+    res.status(200).json(workouts);
 
-  res.status(200).json(workouts);
+  }
+  catch (error) {
+    throw new ErrorHandler(error.statusCode, error.message);
+  }
+
 };
 
 // get a single workout
 const getWorkout = async (req, res) => {
-  const { id } = req.params;
 
-  const workout = await prisma.workout.findUnique({
-    where: { id }
-  });
+  try {
+    const { workoutId } = req.params;
 
-  if (!workout) {
-    return res.status(404).json({ error: 'No such workout' });
+    const workout = await workoutService.getWorkout( workoutId );
+
+    res.status(200).json(workout);  
+    
+  } catch (error) {
+    throw new ErrorHandler(error.statusCode, error.message);
   }
-
-  res.status(200).json(workout);
+  
 };
 
 // create new workout
 const createWorkout = async (req, res) => {
   const { title, load, reps } = req.body;
-
-  if (!title || !load || !reps) {
-    return res.status(400).json({ error: 'Please fill in all the fields' });
-  }
+  const userId = req.user.id; // Assuming req.user has the user ID
 
   try {
-    const user_id = req.user.id; // Assuming req.user has the user ID
-    const workout = await prisma.workout.create({
-      data: {
-        title,
-        load: parseInt(load), // Convert load to integer
-        reps: parseInt(reps), // Convert load to integer
-        user: { connect: { id: user_id } } // Connect the workout to the user
-      }
-    });
+    const workoutData = { title, load, reps };
+
+    const workout = await workoutService.createWorkout( { workoutData, userId } );
+
     res.status(200).json(workout);
+
   } catch (error) {
-    res.status(400).json({ error: error.message });
+    throw new ErrorHandler(error.statusCode, error.message);
   }
 };
 
@@ -83,7 +86,7 @@ const updateWorkout = async (req, res) => {
 };
 
 module.exports = {
-  getWorkouts,
+  getAllWorkouts,
   getWorkout,
   createWorkout,
   deleteWorkout,

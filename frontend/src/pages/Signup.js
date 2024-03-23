@@ -1,7 +1,7 @@
 import { useState } from "react";
 import { useSignup } from "../hooks/useSignup";
 
-const Signup = () => {
+const Signup = () => { // TODO: #1 checks toevoegen hier + css onder de input fields. Add Validator hier ook
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");

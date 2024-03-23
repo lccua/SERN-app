@@ -2,7 +2,7 @@ import { useState } from "react"
 import { useWorkoutsContext } from "../hooks/useWorkoutsContext"
 import { useAuthContext } from '../hooks/useAuthContext'
 
-const WorkoutForm = () => {
+const WorkoutForm = () => { // TODO: #2 do a check if the fields are empty
   const { dispatch } = useWorkoutsContext()
   const { user } = useAuthContext()
 

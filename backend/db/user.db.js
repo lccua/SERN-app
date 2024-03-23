@@ -1,4 +1,4 @@
-const prisma = require("../db/prismaClient")
+const prisma = require("./client/prismaClient")
 
 const createUserDb = async ( id, email, hashedPassword ) => {
   const newUser = await prisma.user.create({
