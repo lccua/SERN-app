@@ -1,4 +1,3 @@
-const prisma = require("../db/client/prismaClient")
 const workoutService = require("../services/workout.service");
 const { ErrorHandler } = require("../helpers/error");
 
@@ -39,10 +38,12 @@ const getWorkout = async (req, res) => {
 
 // create new workout
 const createWorkout = async (req, res) => {
-  const { title, load, reps } = req.body;
-  const userId = req.user.id; // Assuming req.user has the user ID
-
+  
   try {
+
+    const { title, load, reps } = req.body;
+    const userId = req.user.id; // Assuming req.user has the user ID
+
     const workoutData = { title, load, reps };
 
     const workout = await workoutService.createWorkout( { workoutData, userId } );
@@ -52,36 +53,44 @@ const createWorkout = async (req, res) => {
   } catch (error) {
     throw new ErrorHandler(error.statusCode, error.message);
   }
+
 };
 
 // delete a workout
 const deleteWorkout = async (req, res) => {
-  const { id } = req.params;
 
-  const workout = await prisma.workout.delete({
-    where: { id }
-  });
+  try {
+    
+    const { id } = req.params;
+    
+    const workout = await workoutService.deleteWorkout( id );
+    
+    res.status(200).json(workout);
 
-  if (!workout) {
-    return res.status(404).json({ error: 'No such workout' });
-  }
+  } catch (error) {
+    throw new ErrorHandler(error.statusCode, error.message);
+  };
 
-  res.status(200).json(workout);
-};
+}
 
 // update a workout
 const updateWorkout = async (req, res) => {
-  const { id } = req.params;
+
+  
+ 
 
   try {
-    const workout = await prisma.workout.update({
-      where: { id },
-      data: { ...req.body }
-    });
+
+    const { id } = req.params;
+    const updatedWorkout = { ...req.body }
+    console.log(updatedWorkout)
+    
+    const workout = await workoutService.updateWorkout( {id, updatedWorkout} );
+
 
     res.status(200).json(workout);
   } catch (error) {
-    res.status(404).json({ error: 'No such workout' });
+    throw new ErrorHandler(error.statusCode, error.message);
   }
 };
 

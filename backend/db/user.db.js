@@ -1,28 +1,25 @@
-const prisma = require("./client/prismaClient")
+const prisma = require("./client/prismaClient");
 
-const createUserDb = async ( id, email, hashedPassword ) => {
-  const newUser = await prisma.user.create({
-    data: {
-      id,
-      email,
-      password: hashedPassword,
-    }
-  });
+class UserDb {
+  async createUser(id, email, hashedPassword) {
+    const newUser = await prisma.user.create({
+      data: {
+        id,
+        email,
+        password: hashedPassword,
+      }
+    });
 
-  return newUser;
+    return newUser;
+  }
 
-};
+  async getUserByEmail(email) {
+    const user = await prisma.user.findUnique({
+      where: { email }
+    });
 
-const getUserByEmailDb = async (email) => {
-  const user = await prisma.user.findUnique({
-    where: { email }
-  });
+    return user;
+  }
+}
 
-  return user;
-};
-
-
-module.exports = {
-  createUserDb,
-  getUserByEmailDb
-};
+module.exports = new UserDb();

@@ -1,19 +1,15 @@
-const {
-  getAllWorkoutsDb,
-  getWorkoutDb,
-  createWorkoutDb,
-} = require("../db/workout.db");
-
+const workoutDb = require("../db/workout.db");
 const { ErrorHandler } = require("../helpers/error");
 
 
 class WorkoutService {
+
   async getAllWorkouts( userId ) {
 
     try {
 
       // Get all workouts
-      const workouts = await getAllWorkoutsDb(userId);
+      const workouts = await workoutDb.getAllWorkouts(userId);
 
       return workouts;
 
@@ -22,15 +18,11 @@ class WorkoutService {
     }
   }
 
-  async getWorkout( workoutId ) {
+  async getWorkout( id ) {
 
     try {
 
-      const workout = await getWorkoutDb(workoutId);
-
-      if (!workout) {
-        return res.status(404).json({ error: 'No such workout' });
-      }
+      const workout = await workoutDb.getWorkout( id );
 
       return workout;
 
@@ -43,8 +35,36 @@ class WorkoutService {
 
     try {
 
-      const workout = await createWorkoutDb( { workoutData, userId } );
+      const workout = await workoutDb.createWorkout( { workoutData, userId } );
 
+
+      return workout;
+
+    } catch (error) {
+      throw new ErrorHandler(error.statusCode, error.message);
+    }
+  }
+
+  async deleteWorkout( id ) {
+
+    try {
+
+      const workout = await workoutDb.deleteWorkout( id );
+
+  
+      return workout;
+
+    } catch (error) {
+      throw new ErrorHandler(error.statusCode, error.message);
+    }
+  }
+
+  async updateWorkout( {id, updatedWorkout} ) {
+
+    try {
+
+      const workout = await workoutDb.updateWorkout( {id, updatedWorkout} );
+  
       return workout;
 
     } catch (error) {

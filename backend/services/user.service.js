@@ -1,7 +1,4 @@
-const {
-  getUserByEmailDb,
-  createUserDb,
-} = require("../db/user.db");
+const userDb = require("../db/user.db");
 const { comparePassword, hashPassword } = require("../helpers/password");
 const { ErrorHandler } = require("../helpers/error");
 const { v4: uuidv4 } = require('uuid');
@@ -11,10 +8,11 @@ const { v4: uuidv4 } = require('uuid');
 class UserService {
   
   async signUp( email, password ) {
+
     try {
 
       // Find user by email
-      const user = await getUserByEmailDb(email);
+      const user = await userDb.getUserByEmail(email);
 
       // Check if user is allready present in db
       if (user) {
@@ -27,7 +25,7 @@ class UserService {
       // Generate UUID
       const id = uuidv4();
 
-      const newUser = await createUserDb( id, email, hashedPassword );
+      const newUser = await userDb.createUser( id, email, hashedPassword );
 
       return newUser;
 
@@ -41,7 +39,8 @@ class UserService {
     try {
 
       // Find user by email
-      const user = await getUserByEmailDb(email);
+      const user = await userDb.getUserByEmail(email);
+
     
       // Check if the user exists
       if (!user) {
