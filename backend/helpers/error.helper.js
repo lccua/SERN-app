@@ -1,4 +1,4 @@
-const { logger } = require("../utils/logger");
+const { logger } = require("../utils/logger.utils");
 class ErrorHandler extends Error {
   constructor(statusCode, message) {
     super();

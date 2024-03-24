@@ -1,6 +1,6 @@
 const userDb = require("../db/user.db");
-const { comparePassword, hashPassword } = require("../helpers/password");
-const { ErrorHandler } = require("../helpers/error");
+const { comparePassword, hashPassword } = require("../helpers/password.helper");
+const { ErrorHandler } = require("../helpers/error.helper");
 const { v4: uuidv4 } = require('uuid');
 
 

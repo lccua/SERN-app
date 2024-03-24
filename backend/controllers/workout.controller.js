@@ -1,5 +1,5 @@
 const workoutService = require("../services/workout.service");
-const { ErrorHandler } = require("../helpers/error");
+const { ErrorHandler } = require("../helpers/error.helper");
 
 
 

@@ -1,5 +1,5 @@
 const userService = require("../services/user.service");
-const { createToken } = require("../helpers/createToken");
+const { createToken } = require("../helpers/jwtToken.helper");
 
 
 

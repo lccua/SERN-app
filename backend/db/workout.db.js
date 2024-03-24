@@ -1,5 +1,5 @@
 const prisma = require("./client/prismaClient");
-const { ErrorHandler } = require("../helpers/error");
+const { ErrorHandler } = require("../helpers/error.helper");
 
 
 class WorkoutDb {

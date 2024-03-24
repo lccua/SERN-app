@@ -1,5 +1,5 @@
 const workoutDb = require("../db/workout.db");
-const { ErrorHandler } = require("../helpers/error");
+const { ErrorHandler } = require("../helpers/error.helper");
 
 
 class WorkoutService {

@@ -6,7 +6,7 @@ const {
   getWorkout,
   deleteWorkout,
   updateWorkout,
-} = require("../controllers/workoutController");
+} = require("../controllers/workout.controller");
 const requireAuth = require("../middleware/requireAuth");
 
 const router = express.Router();
