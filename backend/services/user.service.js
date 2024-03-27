@@ -1,7 +1,9 @@
 const userDb = require("../db/user.db");
-const { comparePassword, hashPassword } = require("../helpers/password.helper");
+const { compareData, hashData } = require("../helpers/auth.helper");
 const { ErrorHandler } = require("../helpers/error.helper");
 const { v4: uuidv4 } = require('uuid');
+const otpGenerator = require('otp-generator');
+
 
 
 
@@ -20,12 +22,23 @@ class UserService {
       }
 
       // Hash Password
-      const hashedPassword = await hashPassword( password );
+      const hashedPassword = await hashData( password );
 
       // Generate UUID
       const id = uuidv4();
 
-      const newUser = await userDb.createUser( id, email, hashedPassword );
+      // Generate an OTP code
+      const otp = otpGenerator.generate(6, { digits: true, alphabets: false, upperCase: false, specialChars: false });
+
+      // Hash OTP
+      const hashedOtp = await hashData( otp );
+
+      // Generate OTP expiry timestamp
+      const expiryTimestamp = new Date();
+      expiryTimestamp.setMinutes(expiryTimestamp.getMinutes() + 15);
+
+      // Add user to the database
+      const newUser = await userDb.createUser( id, email, hashedPassword, hashedOtp, expiryTimestamp );
 
       return newUser;
 
@@ -49,7 +62,7 @@ class UserService {
       }
     
       // Compare passwords
-      const isCorrectPassword = await comparePassword(password, user.password);
+      const isCorrectPassword = await compareData(password, user.password);
       
       // Check if the password is correct
       if (!isCorrectPassword) {
@@ -57,6 +70,34 @@ class UserService {
       }
     
       return user;
+
+    } catch (error) {
+      throw new ErrorHandler(error.statusCode, error.message);
+    }
+  }
+
+  async otpVerification( userId, insertedOtp ) {
+    try {
+
+     
+      const otp = await userDb.getOtp( userId );
+
+    
+  
+      if (!otp) {
+        throw new ErrorHandler(403, "Email or password incorrect.");
+
+      }
+    
+      // Compare passwords
+      const isCorrectOtp = await compareData(insertedOtp, otp);
+      
+      // Check if the password is correct
+      if (!isCorrectOtp) {
+        throw new ErrorHandler(403, "The inserted OTP code is incorrect.");
+      }
+    
+      return otp;
 
     } catch (error) {
       throw new ErrorHandler(error.statusCode, error.message);

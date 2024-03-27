@@ -39,6 +39,21 @@ const signupUser = async (req, res) => {
   }
 };
 
+// otp verificiaton
+const otpVerification = async (req, res) => {
+
+  const { userId, insertedOtp } = req.body;
+  
+  try {
+    const otp = await userService.otpVerification( userId, insertedOtp );
+
+    res.status(200).json({ email, token });
+
+  } catch (error) {
+    res.status(400).json({ error: error.message });
+  }
+};
 
 
-module.exports = { signupUser, loginUser };
+
+module.exports = { signupUser, loginUser, otpVerification };
