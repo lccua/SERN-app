@@ -12,16 +12,19 @@ export const AuthContextProvider = ({ children }) => {
   });
 
   useEffect(() => {
+    console.log("authxontext")
     const user = JSON.parse(localStorage.getItem("user"));
+    console.log(user)
 
     if (user) {
+      console.log(user)
       dispatch({ type: "LOGIN", payload: user });
+      
+      if (user.created_at) {
+        dispatch({ type: "IS_VERIFIED", payload: user.created_at });
+      }
     }
 
-    if (user.isVerified) {
-      dispatch({ type: "IS_VERIFIED", payload: user.isVerified });
-
-    }
   }, []);
 
   console.log("Authcontext state: ", state);

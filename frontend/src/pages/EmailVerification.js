@@ -1,10 +1,10 @@
 import React from 'react';
-import OTPInput from '../components/verification/OtpInput';
+import OtpInput from '../components/verification/OtpInput';
 
 const EmailVerification = () => {
   return (
     <div>
-      <OTPInput title={"Email verification"} />
+      <OtpInput title={"Email verification"} />
     </div>
   );
 };

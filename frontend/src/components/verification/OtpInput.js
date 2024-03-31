@@ -1,9 +1,13 @@
 import React, { useState, useRef } from 'react';
 import './OtpInput.css'; // Import the CSS file for styling
 import { useOtpVerification } from '../../hooks/useOtpVerification';
+import { useNavigate } from "react-router-dom"; // import useNavigate hook
+
 
 
 const OtpInput = ({title}) => {
+  const navigate = useNavigate(); // initialize the navigate function
+
   const [otp, setOTP] = useState(['', '', '', '', '', '']);
   const inputsRef = [useRef(), useRef(), useRef(), useRef(), useRef(), useRef()];
   const { otpVerification, error, isLoading } = useOtpVerification();
@@ -29,8 +33,13 @@ const OtpInput = ({title}) => {
   };
 
   const handleVerify = async () => {
-    const insertedOtp = otp.join('');
-    await otpVerification(insertedOtp);
+    
+    const inputOtpInt = otp.join('');
+
+    const inputOtp = inputOtpInt.toString();
+    await otpVerification(inputOtp);
+    navigate('/signup'); // navigate to the verification path upon successful submission
+
 
 
 

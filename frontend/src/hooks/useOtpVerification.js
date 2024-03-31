@@ -1,14 +1,15 @@
 import { useState } from "react";
-import { useAuthContext } from '../hooks/useAuthContext'
+import { useVerificationContext } from '../hooks/useVerificationContext'
 
 
 export const useOtpVerification = () => {
   const [error, setError] = useState(null);
   const [isLoading, setIsLoading] = useState(null);
-  const { user } = useAuthContext()
+  const { verification } = useVerificationContext()
 
 
-  const otpVerification = async (userId, insertedOtp) => {
+
+  const otpVerification = async (inputOtp) => {
     setIsLoading(true);
     setError(null);
 
@@ -17,20 +18,25 @@ export const useOtpVerification = () => {
       method: "POST",
       headers: {
       "Content-Type": "application/json",
-      'Authorization': `Bearer ${user.token}`
       },
-
-      body: JSON.stringify({ userId, insertedOtp }),
-
+      
+      body: JSON.stringify({ email: verification.user.email , otp: inputOtp }),
+      
     });
     
     const json = await response.json();
+    console.log(json)
 
     if (!response.ok) {
+  
       setIsLoading(false);
       setError(json.error);
     }
     if (response.ok) {
+  
+      // save user to local storage
+      //localStorage.setItem("user", JSON.stringify(json));
+
       setIsLoading(false);
     }
   };

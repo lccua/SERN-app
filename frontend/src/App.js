@@ -8,9 +8,10 @@ import Navbar from './components/Navbar';
 import Signup from './pages/Signup';
 import Login from './pages/Login';
 import EmailVerification from './pages/EmailVerification';
+import VerificationMailer from './pages/VerificationMailer';
 
 function App() {
-  const { user, isVerified } = useAuthContext();
+  const { user } = useAuthContext();
 
   return (
     <div className="App">
@@ -24,7 +25,7 @@ function App() {
             />
             <Route 
               path="/login"
-              element={!user ? <Login /> : (isVerified ? <Navigate to="/" /> : <Navigate to="/verification" />)}
+              element={!user ? <Login /> : <Navigate to="/" />}
             />
             <Route 
               path="/signup"
@@ -32,7 +33,11 @@ function App() {
             />
             <Route 
               path="/verification"
-              element={user && !isVerified ? <EmailVerification /> : <Navigate to="/" />}
+              element={!user ? <EmailVerification /> : <Navigate to="/" />} // set a "emailSent" state or something like that instead off "user"
+            />
+            <Route 
+              path="/mail-verification"
+              element={!user  ? <VerificationMailer /> : <Navigate to="/verification" />}
             />
           </Routes>
         </div>

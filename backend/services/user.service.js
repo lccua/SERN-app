@@ -3,42 +3,27 @@ const { compareData, hashData } = require("../helpers/auth.helper");
 const { ErrorHandler } = require("../helpers/error.helper");
 const { v4: uuidv4 } = require('uuid');
 const otpGenerator = require('otp-generator');
-
-
-
+const { OtpExpiryGenerator } = require("../helpers/timestamp.helper")
 
 class UserService {
   
-  async signUp( email, password ) {
+  async signUp( username, password ) {
 
     try {
-
+      console.log("hallo tesqtingn " + username)
       // Find user by email
-      const user = await userDb.getUserByEmail(email);
+      const user = await userDb.getUserByUsername(username);
 
       // Check if user is allready present in db
       if (user) {
-        throw new ErrorHandler(401, "Email is allready in use.");
+        throw new ErrorHandler(401, "Username is allready in use.");
       }
 
       // Hash Password
       const hashedPassword = await hashData( password );
 
-      // Generate UUID
-      const id = uuidv4();
-
-      // Generate an OTP code
-      const otp = otpGenerator.generate(6, { digits: true, alphabets: false, upperCase: false, specialChars: false });
-
-      // Hash OTP
-      const hashedOtp = await hashData( otp );
-
-      // Generate OTP expiry timestamp
-      const expiryTimestamp = new Date();
-      expiryTimestamp.setMinutes(expiryTimestamp.getMinutes() + 15);
-
       // Add user to the database
-      const newUser = await userDb.createUser( id, email, hashedPassword, hashedOtp, expiryTimestamp );
+      const newUser = await userDb.createUser( username, hashedPassword );
 
       return newUser;
 
@@ -54,13 +39,14 @@ class UserService {
       // Find user by email
       const user = await userDb.getUserByEmail(email);
 
+      
+
     
       // Check if the user exists
       if (!user) {
         throw new ErrorHandler(403, "Email or password incorrect.");
-
       }
-    
+
       // Compare passwords
       const isCorrectPassword = await compareData(password, user.password);
       
@@ -76,34 +62,58 @@ class UserService {
     }
   }
 
-  async otpVerification( userId, insertedOtp ) {
+  async userVerification( email , otp ) {
     try {
+      // Get hahsed OTP
+      const hashedOtp = await userDb.getOtp( email );
 
-     
-      const otp = await userDb.getOtp( userId );
+      // Compare OTPs
+      const isCorrectOtp = await compareData(otp, hashedOtp);
 
-    
-  
-      if (!otp) {
-        throw new ErrorHandler(403, "Email or password incorrect.");
-
-      }
-    
-      // Compare passwords
-      const isCorrectOtp = await compareData(insertedOtp, otp);
+      console.log(isCorrectOtp)
       
       // Check if the password is correct
       if (!isCorrectOtp) {
         throw new ErrorHandler(403, "The inserted OTP code is incorrect.");
       }
-    
-      return otp;
+
+      return isCorrectOtp;
 
     } catch (error) {
       throw new ErrorHandler(error.statusCode, error.message);
     }
   }
 
+  async verificationMailer (email) {
+
+    try {
+      // Generate UUID
+      const id = uuidv4();
+
+      // Generate an OTP code
+      const otp = otpGenerator.generate(6, {
+        digits: true,
+        lowerCaseAlphabets: false,
+        upperCaseAlphabets: false,
+        specialChars: false,
+      });
+
+      console.log("this is my otp code: " + otp);
+
+      // Hash OTP
+      const hashedOtp = await hashData(otp);
+
+      // Generate OTP expiry timestamp
+      const expiresTimestamp = OtpExpiryGenerator();
+
+      const user = await userDb.initializeUser( id, email, hashedOtp, expiresTimestamp );
+
+      return user;
+
+    } catch (error) {
+      throw new ErrorHandler(error.statusCode, error.message);
+    }
+  }
 }
 
 module.exports = new UserService();

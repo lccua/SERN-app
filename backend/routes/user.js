@@ -1,6 +1,6 @@
 const express = require('express')
 // controller functions
-const { loginUser, signupUser, otpVerification } = require('../controllers/user.controller')
+const { loginUser, signupUser, userVerification, verificationMailer } = require('../controllers/user.controller')
 
 const router = express.Router()
 
@@ -8,10 +8,13 @@ const router = express.Router()
 router.post('/login', loginUser)
 
 // signup route
-router.post('/signup', signupUser)
+router.patch('/signup', signupUser)
 
 // otp verification route
-router.post('/verification', otpVerification)
+router.post('/verification', userVerification)
+
+// otp mailer 
+router.post('/mail-verification', verificationMailer )
 
 
 module.exports = router

@@ -5,14 +5,15 @@ import * as Yup from "yup";
 
 const Signup = () => {
   const initialValues = {
-    email: "",
+    username: "",
     password: "",
     confirmPassword: "",
   };
   const { signup, error, isLoading } = useSignup();
 
   const validationSchema = Yup.object().shape({
-    email: Yup.string().email("Invalid email").required("Email is required"),
+    username: Yup.string()
+      .required("Username is required"),
     password: Yup.string()
       .min(6, "Password must be at least 6 characters")
       .required("Password is required"),
@@ -26,7 +27,7 @@ const Signup = () => {
     setSubmitting(false);
 
     try {
-      await signup(values.email, values.password);
+      await signup(values.username, values.password);
     } catch (error) {
       console.error("Signup failed:", error);
     }
@@ -43,9 +44,9 @@ const Signup = () => {
         {({ isSubmitting }) => (
           <Form>
             <div>
-              <label htmlFor="email">Email</label>
-              <Field type="email" name="email" />
-              <ErrorMessage name="email" component="div" />
+              <label htmlFor="username">Username</label>
+              <Field type="username" name="username" />
+              <ErrorMessage name="username" component="div" />
             </div>
             <div>
               <label htmlFor="password">Password</label>
