@@ -10,13 +10,21 @@ datasource db {
 model User {
   id       String    @id @default(uuid())
   email    String    @unique
-  username String?
+  username String    @unique
   password String?
   created_at  DateTime?
-  updated_at  DateTime?   
+  updated_at  DateTime? 
+  userAuthentication  UserAuthentication  @relation(fields: [user_authtentication_id], references: [id])
+  user_authtentication_id String
+  workouts Workout[]
+}
+
+model UserAuthentication {
+  id       String    @id @default(uuid())
+  email    String    @unique
   otp         String?
   expires_at  DateTime?
-  workouts Workout[]
+  user User[]
 }
 
 model Workout {

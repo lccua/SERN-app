@@ -1,15 +1,15 @@
 import React from "react";
 import { Formik, Form, Field, ErrorMessage } from "formik";
-import { useVerificationMailer } from "../hooks/useVerificationMailer";
+import { useOtpRequest } from "../hooks/useOtpRequest";
 import { useNavigate } from "react-router-dom"; // import useNavigate hook
 
 import * as Yup from "yup";
 
-const VerificationMailer = () => {
+const OtpRequest = () => {
   const initialValues = {
     email: "",
   };
-  const { verificationMailer, error, isLoading } = useVerificationMailer();
+  const { otpRequest, error, isLoading } = useOtpRequest();
   const navigate = useNavigate(); // initialize the navigate function
 
   const validationSchema = Yup.object().shape({
@@ -20,10 +20,10 @@ const VerificationMailer = () => {
     setSubmitting(false);
 
     try {
-      await verificationMailer(values.email);
-      navigate('/verification'); // navigate to the verification path upon successful submission
+      await otpRequest(values.email);
+      navigate('/otp-authentication'); // navigate to the verification path upon successful submission
     } catch (error) {
-      console.error("Verification email sending failed:", error);
+      console.error("Authentication email sending failed:", error);
     }
   };
 
@@ -53,4 +53,4 @@ const VerificationMailer = () => {
   );
 };
 
-export default VerificationMailer;
+export default OtpRequest;

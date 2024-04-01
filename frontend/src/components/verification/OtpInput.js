@@ -1,6 +1,6 @@
 import React, { useState, useRef } from 'react';
 import './OtpInput.css'; // Import the CSS file for styling
-import { useOtpVerification } from '../../hooks/useOtpVerification';
+import { useOtpAuthentication } from '../../hooks/useOtpAuthentication';
 import { useNavigate } from "react-router-dom"; // import useNavigate hook
 
 
@@ -10,7 +10,7 @@ const OtpInput = ({title}) => {
 
   const [otp, setOTP] = useState(['', '', '', '', '', '']);
   const inputsRef = [useRef(), useRef(), useRef(), useRef(), useRef(), useRef()];
-  const { otpVerification, error, isLoading } = useOtpVerification();
+  const { otpAuthentication, error, isLoading } = useOtpAuthentication();
 
 
   const handleChange = (index, value) => {
@@ -37,7 +37,7 @@ const OtpInput = ({title}) => {
     const inputOtpInt = otp.join('');
 
     const inputOtp = inputOtpInt.toString();
-    await otpVerification(inputOtp);
+    await otpAuthentication(inputOtp);
     navigate('/signup'); // navigate to the verification path upon successful submission
 
 
@@ -60,7 +60,11 @@ const OtpInput = ({title}) => {
   return (
     <div className="otp-container">
       <h2>{title}</h2>
-      <p>Please enter the 6-digit OTP sent to your email.</p>
+      <p>
+        Check your email inbox. We have sent a 6-digit verification code to
+        example@mail. This code will expire in 15 minutes. <a  href="#" >Change email</a>
+      </p>
+      <p>Please enter the 6-digit code sent to your email.</p>
       <div className="otp-input-container">
         {otp.map((value, index) => (
           <input
@@ -76,10 +80,20 @@ const OtpInput = ({title}) => {
           />
         ))}
       </div>
-      <button disabled={isLoading} className="verify-button" onClick={handleVerify}>Verify</button>
-      <p className="resend-text">Didn't receive a code? <a href="#" onClick={handleResend}>Request again</a></p>
+      <button
+        disabled={isLoading}
+        className="verify-button"
+        onClick={handleVerify}
+      >
+        Verify
+      </button>
+      <p className="resend-text">
+        Didn't receive a code?{" "}
+        <a href="#" onClick={handleResend}>
+          Request again
+        </a>
+      </p>
       {error && <div className="error">{error}</div>}
-
     </div>
   );
 };

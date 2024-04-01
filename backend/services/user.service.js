@@ -7,11 +7,10 @@ const { OtpExpiryGenerator } = require("../helpers/timestamp.helper")
 
 class UserService {
   
-  async signUp( username, password ) {
+  async signUp( email, username, password, userAuthenticationId ) {
 
-    try {
-      console.log("hallo tesqtingn " + username)
-      // Find user by email
+    try {      
+      // Find user by username
       const user = await userDb.getUserByUsername(username);
 
       // Check if user is allready present in db
@@ -19,11 +18,14 @@ class UserService {
         throw new ErrorHandler(401, "Username is allready in use.");
       }
 
+      // Generate UUID
+      const id = uuidv4();
+
       // Hash Password
       const hashedPassword = await hashData( password );
 
       // Add user to the database
-      const newUser = await userDb.createUser( username, hashedPassword );
+      const newUser = await userDb.createUser( id, email, username, hashedPassword, userAuthenticationId );
 
       return newUser;
 
@@ -39,9 +41,6 @@ class UserService {
       // Find user by email
       const user = await userDb.getUserByEmail(email);
 
-      
-
-    
       // Check if the user exists
       if (!user) {
         throw new ErrorHandler(403, "Email or password incorrect.");
@@ -62,7 +61,7 @@ class UserService {
     }
   }
 
-  async userVerification( email , otp ) {
+  async verifyOtp( email , otp ) {
     try {
       // Get hahsed OTP
       const hashedOtp = await userDb.getOtp( email );
@@ -84,7 +83,8 @@ class UserService {
     }
   }
 
-  async verificationMailer (email) {
+  async otpRequest( email ) {
+    //TODO: add the mailer part!!!
 
     try {
       // Generate UUID
@@ -106,9 +106,9 @@ class UserService {
       // Generate OTP expiry timestamp
       const expiresTimestamp = OtpExpiryGenerator();
 
-      const user = await userDb.initializeUser( id, email, hashedOtp, expiresTimestamp );
+      const newUserAuthentication = await userDb.createUserAuthentication( id, email, hashedOtp, expiresTimestamp );
 
-      return user;
+      return newUserAuthentication;
 
     } catch (error) {
       throw new ErrorHandler(error.statusCode, error.message);

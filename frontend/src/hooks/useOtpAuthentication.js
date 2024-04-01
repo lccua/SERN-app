@@ -1,26 +1,29 @@
 import { useState } from "react";
-import { useVerificationContext } from '../hooks/useVerificationContext'
+import { useAuthenticationContext } from './useAuthenticationContext'
 
 
-export const useOtpVerification = () => {
+export const useOtpAuthentication = () => {
   const [error, setError] = useState(null);
   const [isLoading, setIsLoading] = useState(null);
-  const { verification } = useVerificationContext()
+  const { authentication } = useAuthenticationContext()
+
+  console.log(authentication)
 
 
-
-  const otpVerification = async (inputOtp) => {
+  const otpAuthentication = async (inputOtp) => {
     setIsLoading(true);
     setError(null);
+    
+    console.log(authentication)
 
-    const response = await fetch("/api/user/verification", {
+    const response = await fetch("/api/user/otp-authentication", {
 
       method: "POST",
       headers: {
       "Content-Type": "application/json",
       },
       
-      body: JSON.stringify({ email: verification.user.email , otp: inputOtp }),
+      body: JSON.stringify({ email: authentication.user.email , otp: inputOtp }),
       
     });
     
@@ -40,5 +43,5 @@ export const useOtpVerification = () => {
       setIsLoading(false);
     }
   };
-  return { otpVerification, isLoading, error };
+  return { otpAuthentication, isLoading, error };
 };

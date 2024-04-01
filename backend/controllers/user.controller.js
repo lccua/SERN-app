@@ -24,10 +24,11 @@ const loginUser = async (req, res) => {
 // signup a user
 const signupUser = async (req, res) => {
 
-  const { username, password } = req.body;
+  const { email, username, password, userAuthenticationId } = req.body;
   
   try {
-    const user = await userService.signUp( username, password );
+    console.log("testing singup")
+    const user = await userService.signUp( email, username, password, userAuthenticationId );
 
     // create token
     const token = createToken(user.id);
@@ -39,13 +40,13 @@ const signupUser = async (req, res) => {
   }
 };
 
-// user verification
-const userVerification = async (req, res) => {
+// user authentication
+const verifyOtp = async (req, res) => {
 
   const { email , otp } = req.body;
 
   try {
-    const user = await userService.userVerification( email , otp );
+    const user = await userService.verifyOtp( email , otp );
 
     res.status(200).json({ email, otp });
 
@@ -55,10 +56,10 @@ const userVerification = async (req, res) => {
 };
 
 // verification mailer
-const verificationMailer = async (req, res) => {
+const otpRequest = async (req, res) => {
   const { email } = req.body;
   try {
-    const user = await userService.verificationMailer( email )
+    const user = await userService.otpRequest( email )
 
     res.status(200).json({ user });
 
@@ -69,4 +70,4 @@ const verificationMailer = async (req, res) => {
 
 
 
-module.exports = { signupUser, loginUser, userVerification, verificationMailer };
+module.exports = { signupUser, loginUser, otpRequest, verifyOtp };

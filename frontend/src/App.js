@@ -7,11 +7,12 @@ import Home from './pages/Home';
 import Navbar from './components/Navbar';
 import Signup from './pages/Signup';
 import Login from './pages/Login';
-import EmailVerification from './pages/EmailVerification';
-import VerificationMailer from './pages/VerificationMailer';
+import OtpAuthentication from './pages/OtpAuthentication';
+import OtpRequest from './pages/OtpRequest';
+import VerificationPage from './pages/Registration';
 
 function App() {
-  const { user } = useAuthContext();
+  const { user } = useAuthContext(); // add "otpRequested" state
 
   return (
     <div className="App">
@@ -25,19 +26,23 @@ function App() {
             />
             <Route 
               path="/login"
-              element={!user ? <Login /> : <Navigate to="/" />}
+              element={!user ? <Login /> : <Navigate to="/" />} 
             />
             <Route 
               path="/signup"
-              element={!user ? <Signup /> : <Navigate to="/" />}
+              element={!user ? <Signup /> : <Navigate to="/" />} // add "otpRequested" state
             />
             <Route 
-              path="/verification"
-              element={!user ? <EmailVerification /> : <Navigate to="/" />} // set a "emailSent" state or something like that instead off "user"
+              path="/otp-authentication"
+              element={!user ? <OtpAuthentication /> : <Navigate to="/" />} // add "otpRequested" state
             />
             <Route 
-              path="/mail-verification"
-              element={!user  ? <VerificationMailer /> : <Navigate to="/verification" />}
+              path="/otp-request"
+              element={!user  ? <OtpRequest /> : <Navigate to="/otp-authentication" />}
+            />
+            <Route 
+              path="/test"
+              element={  <VerificationPage />}
             />
           </Routes>
         </div>

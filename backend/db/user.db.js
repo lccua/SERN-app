@@ -1,21 +1,22 @@
 const prisma = require("./client/prismaClient");
 
 class UserDb {
-  async createUser(id, username, hashedPassword) {
-    const updatedUser = await prisma.user.update({
-      where: { id },
+  async createUser(id, email, username, hashedPassword, userAuthenticationId) {
+    const newUser = await prisma.user.create({
       data: {
+        id: id,
+        email: email,
         username: username,
         password: hashedPassword,
         created_at: new Date(),
-        otp: null,
-        expires_at: null
+        userAuthentication: {
+          connect: { id: userAuthenticationId },
+        }, 
       },
     });
-  
-    return updatedUser;
+
+    return newUser;
   }
-  
 
   async getUserByEmail(email) {
     const user = await prisma.user.findUnique({
@@ -33,15 +34,15 @@ class UserDb {
     return user;
   }
 
-  async getOtp( email ) {
-    const user = await prisma.user.findUnique({
+  async getOtp(email) {
+    const user = await prisma.userAuthentication.findUnique({
       where: { email },
       select: { otp: true },
     });
 
     const otp = user ? user.otp : null;
 
-    return otp; 
+    return otp;
   }
 
   async updateUserVerification(email) {
@@ -53,21 +54,16 @@ class UserDb {
     return user;
   }
 
-  async initializeUser( id, email, hashedOtp, expiresTimestamp) {
-
-    const newUser = await prisma.user.create({
+  async createUserAuthentication(id, email, hashedOtp, expiresTimestamp) {
+    const newUserAuthentication = await prisma.userAuthentication.create({
       data: {
         id,
         email,
-        password: null,
-        created_at: null,
-        updated_at: null,
         otp: hashedOtp,
         expires_at: expiresTimestamp,
       },
     });
-    return newUser;
-
+    return newUserAuthentication;
   }
 }
 

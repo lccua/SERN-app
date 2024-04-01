@@ -1,19 +1,23 @@
 import { useState } from "react";
 import { useAuthContext } from "./useAuthContext";
+import { useAuthenticationContext } from "../hooks/useAuthenticationContext";
+
 
 export const useSignup = () => {
   const [error, setError] = useState(null);
   const [isLoading, setIsLoading] = useState(null);
   const { dispatch } = useAuthContext();
+  const { authentication } = useAuthenticationContext();
+
 
   const signup = async (username, password) => {
     setIsLoading(true);
     setError(null);
 
     const response = await fetch("/api/user/signup", {
-      method: "PATCH",
+      method: "POST",
       headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ username, password }),
+      body: JSON.stringify({ email: authentication.user.email , username, password, userAuthenticationId: authentication.user.id }),
     });
     
     const json = await response.json();

@@ -4,17 +4,17 @@ import "./index.css";
 import App from "./App";
 import { WorkoutsContextProvider } from "./context/WorkoutContext";
 import { AuthContextProvider } from "./context/AuthContext";
-import { VerificationContextProvider } from "./context/VerificationContext";
+import { AuthenticationContextProvider } from "./context/AuthenticationContext";
 
 const root = ReactDOM.createRoot(document.getElementById("root"));
 root.render(
   <React.StrictMode>
     <AuthContextProvider>
       <WorkoutsContextProvider>
-        <VerificationContextProvider>
+        <AuthenticationContextProvider>
          <App />
 
-        </VerificationContextProvider>
+        </AuthenticationContextProvider>
       </WorkoutsContextProvider>
     </AuthContextProvider>
   </React.StrictMode>

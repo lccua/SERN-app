@@ -2,8 +2,12 @@ import React from "react";
 import { Formik, Form, Field, ErrorMessage } from "formik";
 import { useSignup } from "../hooks/useSignup";
 import * as Yup from "yup";
+import { useAuthenticationContext } from "../hooks/useAuthenticationContext";
+
+
 
 const Signup = () => {
+  const { authentication } = useAuthenticationContext();
   const initialValues = {
     username: "",
     password: "",
@@ -27,6 +31,7 @@ const Signup = () => {
     setSubmitting(false);
 
     try {
+      console.log(values.username, values.password)
       await signup(values.username, values.password);
     } catch (error) {
       console.error("Signup failed:", error);
@@ -36,6 +41,9 @@ const Signup = () => {
   return (
     <div>
       <h2>Register</h2>
+      <h4>{authentication.user.id}</h4>
+      <h4>{authentication.user.email}</h4>
+
       <Formik
         initialValues={initialValues}
         validationSchema={validationSchema}

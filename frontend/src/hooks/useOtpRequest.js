@@ -1,19 +1,19 @@
 import { useState } from "react";
-import { useVerificationContext } from "./useVerificationContext";
+import { useAuthenticationContext } from "./useAuthenticationContext";
 
 
-export const useVerificationMailer = () => {
+export const useOtpRequest = () => {
   const [error, setError] = useState(null);
   const [isLoading, setIsLoading] = useState(null);
-  const { dispatch } = useVerificationContext()
+  const { dispatch } = useAuthenticationContext()
 
 
-  const verificationMailer = async (email) => {
+  const otpRequest = async (email) => {
 
     setIsLoading(true);
     setError(null);
 
-    const response = await fetch("/api/user/mail-verification", {
+    const response = await fetch("/api/user/otp-request", {
 
       method: "POST",
       headers: {
@@ -25,6 +25,8 @@ export const useVerificationMailer = () => {
     });
     
     const json = await response.json();
+    console.log("userverificationmailer: " + JSON.stringify(json));
+    
 
     if (!response.ok) {
 
@@ -38,5 +40,5 @@ export const useVerificationMailer = () => {
       setIsLoading(false);
     }
   };
-  return { verificationMailer, isLoading, error };
+  return { otpRequest, isLoading, error };
 };

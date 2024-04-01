@@ -1,8 +1,8 @@
-export const verificationReducer = (state, action) => {
+export const authenticationReducer = (state, action) => {
   switch (action.type) {
     case "SET_EMAIL":
       return {
-        verification: action.payload,
+        authentication: action.payload,
       };
     default:
       return state;

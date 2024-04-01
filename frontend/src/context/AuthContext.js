@@ -8,7 +8,7 @@ export const AuthContext = createContext();
 export const AuthContextProvider = ({ children }) => {
   const [state, dispatch] = useReducer(authReducer, {
     user: null,
-    isVerified: null,
+    otpRequested: null,
   });
 
   useEffect(() => {
@@ -19,10 +19,6 @@ export const AuthContextProvider = ({ children }) => {
     if (user) {
       console.log(user)
       dispatch({ type: "LOGIN", payload: user });
-      
-      if (user.created_at) {
-        dispatch({ type: "IS_VERIFIED", payload: user.created_at });
-      }
     }
 
   }, []);
