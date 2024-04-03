@@ -1,16 +1,17 @@
 import React, { useState, useRef } from 'react';
-import './OtpInput.css'; // Import the CSS file for styling
-import { useOtpAuthentication } from '../../hooks/useOtpAuthentication';
-import { useNavigate } from "react-router-dom"; // import useNavigate hook
+import './OtpVerification.css'; // Import the CSS file for styling
+import { useOtpVerification } from '../../hooks/useOtpVerification';
+import { useVerificationContext } from "../../hooks/useVerificationContext";
 
 
 
-const OtpInput = ({title}) => {
-  const navigate = useNavigate(); // initialize the navigate function
+const OtpInput = ({handleVerifyOtp, handleChangeEmail}) => {
 
   const [otp, setOTP] = useState(['', '', '', '', '', '']);
   const inputsRef = [useRef(), useRef(), useRef(), useRef(), useRef(), useRef()];
-  const { otpAuthentication, error, isLoading } = useOtpAuthentication();
+  const { otpVerification, error, isLoading } = useOtpVerification();
+  const { verification } = useVerificationContext();
+
 
 
   const handleChange = (index, value) => {
@@ -33,14 +34,16 @@ const OtpInput = ({title}) => {
   };
 
   const handleVerify = async () => {
-    
     const inputOtpInt = otp.join('');
-
     const inputOtp = inputOtpInt.toString();
-    await otpAuthentication(inputOtp);
-    navigate('/signup'); // navigate to the verification path upon successful submission
 
-
+    try {
+      await otpVerification(inputOtp);
+      handleVerifyOtp(true)
+      
+    } catch (error) {
+    
+    }
 
 
     // compare otpvalue with otpcode in database
@@ -52,6 +55,11 @@ const OtpInput = ({title}) => {
 
   }
 
+  const handleChangeEmailClick = async () =>{
+    handleChangeEmail()
+  }
+
+ 
   const handleResend = () => {
     // puts new otp code in the database table
     // puts a requestagain timing in the database table???
@@ -59,10 +67,9 @@ const OtpInput = ({title}) => {
 
   return (
     <div className="otp-container">
-      <h2>{title}</h2>
       <p>
         Check your email inbox. We have sent a 6-digit verification code to
-        example@mail. This code will expire in 15 minutes. <a  href="#" >Change email</a>
+        {verification.user.email}. This code will expire in 15 minutes. <a  href="#" onClick={handleChangeEmailClick} >Change email</a>
       </p>
       <p>Please enter the 6-digit code sent to your email.</p>
       <div className="otp-input-container">

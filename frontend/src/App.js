@@ -5,11 +5,8 @@ import { useAuthContext } from './hooks/useAuthContext';
 // pages & components
 import Home from './pages/Home';
 import Navbar from './components/Navbar';
-import Signup from './pages/Signup';
 import Login from './pages/Login';
-import OtpAuthentication from './pages/OtpAuthentication';
-import OtpRequest from './pages/OtpRequest';
-import VerificationPage from './pages/Registration';
+import Registration from './pages/Registration';
 
 function App() {
   const { user } = useAuthContext(); // add "otpRequested" state
@@ -29,20 +26,8 @@ function App() {
               element={!user ? <Login /> : <Navigate to="/" />} 
             />
             <Route 
-              path="/signup"
-              element={!user ? <Signup /> : <Navigate to="/" />} // add "otpRequested" state
-            />
-            <Route 
-              path="/otp-authentication"
-              element={!user ? <OtpAuthentication /> : <Navigate to="/" />} // add "otpRequested" state
-            />
-            <Route 
-              path="/otp-request"
-              element={!user  ? <OtpRequest /> : <Navigate to="/otp-authentication" />}
-            />
-            <Route 
-              path="/test"
-              element={  <VerificationPage />}
+              path="/registration"
+              element={  <Registration />}
             />
           </Routes>
         </div>

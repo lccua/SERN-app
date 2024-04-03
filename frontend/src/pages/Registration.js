@@ -1,31 +1,40 @@
 import React, { useState } from 'react';
-import OtpInput from '../components/verification/OtpInput';
+import OtpVerification from '../components/verification/OtpVerification';
+import OtpRequest from '../components/verification/OtpRequest';
+import Signup from '../components/verification/Signup';
 
 const Registration = () => {
-  const [phoneNumber, setPhoneNumber] = useState('');
-  const [otp, setOtp] = useState('');
+  const [email, setEmail] = useState('');
   const [isOtpSent, setIsOtpSent] = useState(false);
   const [isVerified, setIsVerified] = useState(false);
   const [error, setError] = useState('');
   const [currentStep, setCurrentStep] = useState(1);
 
-  const handlePhoneNumberChange = (e) => {
-    setPhoneNumber(e.target.value);
+  const handleRequestOtp = (email, isRequested) => {
+    try {
+      setEmail(email);
+      setIsOtpSent(isRequested);
+      setCurrentStep(2);
+      
+    } catch (error) {
+      
+    }
   };
 
-  const handleOtpChange = (e) => {
-    setOtp(e.target.value);
+  const handleVerifyOtp = (isVerified) => {
+    try {
+      setIsVerified(isVerified);
+      setCurrentStep(3);
+    } catch (error) {
+      
+    }
+   
   };
 
-  const handleSendOtp = () => {
-    setIsOtpSent(true);
-    setCurrentStep(2);
-  };
-
-  const handleVerifyOtp = () => {
-    setIsVerified(true);
-    setCurrentStep(3);
-  };
+  const handleChangeEmail = () => {
+    setCurrentStep(1);
+    setIsOtpSent(false)
+  }
 
   const handleSignup = () => {
     // Send signup request to your backend API
@@ -73,34 +82,22 @@ const Registration = () => {
 
       <div>
         <div style={{ display: currentStep === 1 ? "block" : "none" }}>
-          <p>Enter your email. Allready have an account? Login</p>
+          <p>Enter your email. Allready have an account? <a href="/login">Login</a></p>
           {!isOtpSent && (
-            <div>
-              <input
-                type="text"
-                placeholder="Email"
-                value={phoneNumber}
-                onChange={handlePhoneNumberChange}
-              />
-              <button onClick={handleSendOtp}>Send code</button>
-            </div>
+            <OtpRequest handleOtpRequest={handleRequestOtp} />
           )}
         </div>
 
         <div style={{ display: currentStep === 2 ? "block" : "none" }}>
           
           {isOtpSent && !isVerified && (
-            <OtpInput/>
+            <OtpVerification handleVerifyOtp={handleVerifyOtp} handleChangeEmail={handleChangeEmail} />
           )}
         </div>
 
         <div style={{ display: currentStep === 3 ? "block" : "none" }}>
-          <h2>Step 3: Sign up</h2>
           {isVerified && (
-            <div>
-              {/* Add signup form fields here */}
-              <button onClick={handleSignup}>Sign Up</button>
-            </div>
+            <Signup/>
           )}
         </div>
 

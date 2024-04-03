@@ -87,6 +87,14 @@ class UserService {
     //TODO: add the mailer part!!!
 
     try {
+      // Find user by email
+      const user = await userDb.getUserByEmail( email );
+
+      // Check if user is allready present in db
+      if ( user ) {
+        throw new ErrorHandler(401, "Email is allready linked to an account.");
+      }
+
       // Generate UUID
       const id = uuidv4();
 
@@ -106,10 +114,14 @@ class UserService {
       // Generate OTP expiry timestamp
       const expiresTimestamp = OtpExpiryGenerator();
 
-      const newUserAuthentication = await userDb.createUserAuthentication( id, email, hashedOtp, expiresTimestamp );
+      const newUserAuthentication = await userDb.createUserAuthentication(
+        id,
+        email,
+        hashedOtp,
+        expiresTimestamp
+      );
 
       return newUserAuthentication;
-
     } catch (error) {
       throw new ErrorHandler(error.statusCode, error.message);
     }

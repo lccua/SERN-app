@@ -1,13 +1,14 @@
 import React from "react";
 import { Formik, Form, Field, ErrorMessage } from "formik";
-import { useSignup } from "../hooks/useSignup";
+import { useSignup } from "../../hooks/useSignup"; 
 import * as Yup from "yup";
-import { useAuthenticationContext } from "../hooks/useAuthenticationContext";
+import { useVerificationContext } from "../../hooks/useVerificationContext";
+
 
 
 
 const Signup = () => {
-  const { authentication } = useAuthenticationContext();
+  const { verification } = useVerificationContext();
   const initialValues = {
     username: "",
     password: "",
@@ -41,8 +42,8 @@ const Signup = () => {
   return (
     <div>
       <h2>Register</h2>
-      <h4>{authentication.user.id}</h4>
-      <h4>{authentication.user.email}</h4>
+      <h4>{verification.user.id}</h4>
+      <h4>{verification.user.email}</h4>
 
       <Formik
         initialValues={initialValues}

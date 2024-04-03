@@ -1,16 +1,15 @@
 import React from "react";
 import { Formik, Form, Field, ErrorMessage } from "formik";
-import { useOtpRequest } from "../hooks/useOtpRequest";
-import { useNavigate } from "react-router-dom"; // import useNavigate hook
+import { useOtpRequest } from "../../hooks/useOtpRequest";
 
 import * as Yup from "yup";
 
-const OtpRequest = () => {
+const OtpRequest = ({handleOtpRequest}) => {
   const initialValues = {
     email: "",
   };
   const { otpRequest, error, isLoading } = useOtpRequest();
-  const navigate = useNavigate(); // initialize the navigate function
+  
 
   const validationSchema = Yup.object().shape({
     email: Yup.string().email("Invalid email").required("Email is required"),
@@ -21,7 +20,7 @@ const OtpRequest = () => {
 
     try {
       await otpRequest(values.email);
-      navigate('/otp-authentication'); // navigate to the verification path upon successful submission
+      handleOtpRequest( values.email, true )
     } catch (error) {
       console.error("Authentication email sending failed:", error);
     }
@@ -29,7 +28,6 @@ const OtpRequest = () => {
 
   return (
     <div>
-      <h2>Register</h2>
       <Formik
         initialValues={initialValues}
         validationSchema={validationSchema}

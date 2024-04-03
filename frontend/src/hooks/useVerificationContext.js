@@ -1,8 +1,8 @@
-import { AuthenticationContext } from "../context/AuthenticationContext";
+import { VerificationContext } from "../context/VerificationContext";
 import { useContext } from "react";
 
-export const useAuthenticationContext = () => {
-  const context = useContext(AuthenticationContext);
+export const useVerificationContext = () => {
+  const context = useContext(VerificationContext);
 
   if (!context) {
     throw Error(

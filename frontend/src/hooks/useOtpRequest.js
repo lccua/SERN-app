@@ -1,11 +1,11 @@
 import { useState } from "react";
-import { useAuthenticationContext } from "./useAuthenticationContext";
+import { useVerificationContext } from "./useVerificationContext";
 
 
 export const useOtpRequest = () => {
   const [error, setError] = useState(null);
   const [isLoading, setIsLoading] = useState(null);
-  const { dispatch } = useAuthenticationContext()
+  const { dispatch } = useVerificationContext()
 
 
   const otpRequest = async (email) => {
@@ -25,7 +25,6 @@ export const useOtpRequest = () => {
     });
     
     const json = await response.json();
-    console.log("userverificationmailer: " + JSON.stringify(json));
     
 
     if (!response.ok) {

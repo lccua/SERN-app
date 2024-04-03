@@ -1,13 +1,13 @@
 import { useState } from "react";
 import { useAuthContext } from "./useAuthContext";
-import { useAuthenticationContext } from "../hooks/useAuthenticationContext";
+import { useVerificationContext } from "./useVerificationContext";
 
 
 export const useSignup = () => {
   const [error, setError] = useState(null);
   const [isLoading, setIsLoading] = useState(null);
   const { dispatch } = useAuthContext();
-  const { authentication } = useAuthenticationContext();
+  const { verification } = useVerificationContext();
 
 
   const signup = async (username, password) => {
@@ -17,7 +17,7 @@ export const useSignup = () => {
     const response = await fetch("/api/user/signup", {
       method: "POST",
       headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ email: authentication.user.email , username, password, userAuthenticationId: authentication.user.id }),
+      body: JSON.stringify({ email: verification.user.email , username, password, userAuthenticationId: verification.user.id }),
     });
     
     const json = await response.json();
