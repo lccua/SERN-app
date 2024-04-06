@@ -28,15 +28,16 @@ export const useOtpRequest = () => {
     
 
     if (!response.ok) {
-
       setIsLoading(false);
       setError(json.error);
+      return false;
     }
 
     if (response.ok) {
 
       dispatch({ type: "SET_EMAIL", payload: json });
       setIsLoading(false);
+      return true;
     }
   };
   return { otpRequest, isLoading, error };

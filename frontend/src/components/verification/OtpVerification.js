@@ -5,7 +5,7 @@ import { useVerificationContext } from "../../hooks/useVerificationContext";
 
 
 
-const OtpInput = ({handleVerifyOtp, handleChangeEmail}) => {
+const OtpVerification = ({handleVerifyOtp, handleChangeEmail}) => {
 
   const [otp, setOTP] = useState(['', '', '', '', '', '']);
   const inputsRef = [useRef(), useRef(), useRef(), useRef(), useRef(), useRef()];
@@ -38,11 +38,15 @@ const OtpInput = ({handleVerifyOtp, handleChangeEmail}) => {
     const inputOtp = inputOtpInt.toString();
 
     try {
-      await otpVerification(inputOtp);
-      handleVerifyOtp(true)
+      
+      const isVerified = await otpVerification(inputOtp);
+
+      if (isVerified){
+        handleVerifyOtp(isVerified) 
+      }
       
     } catch (error) {
-    
+      console.log(error)
     }
 
 
@@ -105,4 +109,4 @@ const OtpInput = ({handleVerifyOtp, handleChangeEmail}) => {
   );
 };
 
-export default OtpInput;
+export default OtpVerification;

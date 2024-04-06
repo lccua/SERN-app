@@ -5,26 +5,37 @@ import { useOtpRequest } from "../../hooks/useOtpRequest";
 import * as Yup from "yup";
 
 const OtpRequest = ({handleOtpRequest}) => {
+
+  const { otpRequest, error, isLoading } = useOtpRequest();
+
+  const handleSubmit = async ( values, { setSubmitting }) => {
+
+    setSubmitting(false);
+
+    try {
+
+      const isRequested = await otpRequest(values.email);
+      
+      if (isRequested){
+        handleOtpRequest(values.email, isRequested);
+      }
+
+    } catch (error) {
+      console.log(error)
+    }
+
+    
+  };
+
   const initialValues = {
     email: "",
   };
-  const { otpRequest, error, isLoading } = useOtpRequest();
-  
 
   const validationSchema = Yup.object().shape({
     email: Yup.string().email("Invalid email").required("Email is required"),
   });
 
-  const handleSubmit = async (values, { setSubmitting }) => {
-    setSubmitting(false);
-
-    try {
-      await otpRequest(values.email);
-      handleOtpRequest( values.email, true )
-    } catch (error) {
-      console.error("Authentication email sending failed:", error);
-    }
-  };
+ 
 
   return (
     <div>

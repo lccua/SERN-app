@@ -30,17 +30,13 @@ export const useOtpVerification = () => {
     console.log(json)
 
     if (!response.ok) {
-      console.log("false")
       setIsLoading(false);
       setError(json.error);
+      return false;
     }
     if (response.ok) {
-      console.log("true")
-
-      // save user to local storage
-      //localStorage.setItem("user", JSON.stringify(json));
-
       setIsLoading(false);
+      return true;
     }
   };
   return { otpVerification, isLoading, error };

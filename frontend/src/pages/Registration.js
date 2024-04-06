@@ -4,17 +4,15 @@ import OtpRequest from '../components/verification/OtpRequest';
 import Signup from '../components/verification/Signup';
 
 const Registration = () => {
-  const [email, setEmail] = useState('');
   const [isOtpSent, setIsOtpSent] = useState(false);
   const [isVerified, setIsVerified] = useState(false);
-  const [error, setError] = useState('');
   const [currentStep, setCurrentStep] = useState(1);
 
-  const handleRequestOtp = (email, isRequested) => {
+  const handleRequestOtp = ( isRequested ) => {
     try {
-      setEmail(email);
       setIsOtpSent(isRequested);
       setCurrentStep(2);
+      
       
     } catch (error) {
       
@@ -25,11 +23,12 @@ const Registration = () => {
     try {
       setIsVerified(isVerified);
       setCurrentStep(3);
-    } catch (error) {
       
+    } catch (error) {
+      // Handle errors if needed
     }
-   
   };
+  
 
   const handleChangeEmail = () => {
     setCurrentStep(1);
@@ -100,8 +99,6 @@ const Registration = () => {
             <Signup/>
           )}
         </div>
-
-        {error && <p>{error}</p>}
       </div>
     </div>
   );
