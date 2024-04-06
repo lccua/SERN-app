@@ -11,7 +11,7 @@ router.post('/login', loginUser)
 router.post('/signup', signupUser)
 
 // otp verification route
-router.post('/otp-authentication', verifyOtp)
+router.post('/otp-verification', verifyOtp)
 
 // otp mailer 
 router.post('/otp-request', otpRequest )

@@ -7,14 +7,13 @@ export const useOtpVerification = () => {
   const [isLoading, setIsLoading] = useState(null);
   const { verification } = useVerificationContext()
 
-  console.log(verification)
 
 
   const otpVerification = async (inputOtp) => {
     setIsLoading(true);
     setError(null);
     
-    console.log(verification)
+    console.log(inputOtp)
 
     const response = await fetch("/api/user/otp-verification", {
 
@@ -31,12 +30,13 @@ export const useOtpVerification = () => {
     console.log(json)
 
     if (!response.ok) {
-  
+      console.log("false")
       setIsLoading(false);
       setError(json.error);
     }
     if (response.ok) {
-  
+      console.log("true")
+
       // save user to local storage
       //localStorage.setItem("user", JSON.stringify(json));
 
