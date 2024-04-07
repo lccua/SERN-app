@@ -82,22 +82,24 @@ class UserService {
       throw new ErrorHandler(error.statusCode, error.message);
     }
   }
-
-  async otpRequest( email ) {
-    //TODO: add the mailer part!!!
-
+  async  otpRequest(email, isNewUser) {
     try {
       // Find user by email
-      const user = await userDb.getUserByEmail( email );
-
-      // Check if user is allready present in db
-      if ( user ) {
-        throw new ErrorHandler(401, "Email is allready linked to an account.");
+      const user = await userDb.getUserByEmail(email);
+  
+      // Check if user is already present in db
+      if ((isNewUser && user) || (!isNewUser && !user)) {
+        throw new ErrorHandler(
+          401,
+          isNewUser
+            ? "Email is already linked to an account."
+            : "There is no such account with the given email."
+        );
       }
-
+  
       // Generate UUID
       const id = uuidv4();
-
+  
       // Generate an OTP code
       const otp = otpGenerator.generate(6, {
         digits: true,
@@ -105,23 +107,42 @@ class UserService {
         upperCaseAlphabets: false,
         specialChars: false,
       });
-
+  
       console.log("this is my otp code: " + otp);
-
+  
       // Hash OTP
       const hashedOtp = await hashData(otp);
-
+  
       // Generate OTP expiry timestamp
       const expiresTimestamp = OtpExpiryGenerator();
-
+  
       const newUserAuthentication = await userDb.createUserAuthentication(
         id,
         email,
         hashedOtp,
         expiresTimestamp
       );
-
+  
       return newUserAuthentication;
+    } catch (error) {
+      throw new ErrorHandler(error.statusCode, error.message);
+    }
+  }
+  
+
+
+  async passwordReset( email, password ) {
+
+    try {      
+      
+      // Hash Password
+      const hashedPassword = await hashData( password );
+
+      // Update user in the database
+      const updatedUser = await userDb.updateUserPassword( email, hashedPassword );
+
+      return updatedUser;
+
     } catch (error) {
       throw new ErrorHandler(error.statusCode, error.message);
     }

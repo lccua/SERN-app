@@ -8,7 +8,7 @@ export const useOtpRequest = () => {
   const { dispatch } = useVerificationContext()
 
 
-  const otpRequest = async (email) => {
+  const otpRequest = async (email, isNewUser) => {
 
     setIsLoading(true);
     setError(null);
@@ -20,7 +20,7 @@ export const useOtpRequest = () => {
       "Content-Type": "application/json",
       },
       
-      body: JSON.stringify({ email }),
+      body: JSON.stringify({ email, isNewUser }),
       
     });
     

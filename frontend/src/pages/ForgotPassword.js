@@ -1,38 +1,68 @@
 import { useState } from "react";
-import { useLogin } from "../hooks/useLogin";
+import OtpVerification from '../components/verification/OtpVerification';
+import OtpRequest from '../components/verification/OtpRequest';
+import PasswordReset from "../components/PasswordReset";
 
 const ForgotPassword = () => {
-  const [email, setEmail] = useState("");
-  const [password, setPassword] = useState("");
-  const { login, error, isLoading } = useLogin();
+  const [isOtpSent, setIsOtpSent] = useState(false);
+  const [isVerified, setIsVerified] = useState(false);
+  const [currentStep, setCurrentStep] = useState(1);
 
-  const handleSubmit = async (e) => {
-    e.preventDefault();
-
-    await login(email, password);
+  const handleRequestOtp = ( isRequested ) => {
+    try {
+      setIsOtpSent(isRequested);
+      setCurrentStep(2);
+      
+      
+    } catch (error) {
+      
+    }
   };
 
+  const handleVerifyOtp = (isVerified) => {
+    try {
+      setIsVerified(isVerified);
+      setCurrentStep(3);
+      
+    } catch (error) {
+      // Handle errors if needed
+    }
+  };
   
 
-  return (
-    <form className="signup" onSubmit={handleSubmit}>
-      <h3>Login</h3>
-      <label>Email</label>
-      <input
-        type="email"
-        onChange={(e) => setEmail(e.target.value)}
-        value={email}
-      />
-      <label>Password</label>
-      <input
-        type="password"
-        onChange={(e) => setPassword(e.target.value)}
-        value={password}
-      />
+  const handleChangeEmail = () => {
+    setCurrentStep(1);
+    setIsOtpSent(false)
+  }
 
-      <button disabled={isLoading}>Login</button>
-      {error && <div className="error">{error}</div>}
-    </form>
+  return (
+    <div>
+      <h1>Forgot your password?</h1>
+
+    
+      <div>
+        <div style={{ display: currentStep === 1 ? "block" : "none" }}>
+          <p>No problem. Just enter your email here. We will send you a verification code. 
+            After you have verified, you can enter a new password.</p>
+          {!isOtpSent && (
+            <OtpRequest handleOtpRequest={handleRequestOtp} isNewUser={false} />
+            )}
+        </div>
+
+        <div style={{ display: currentStep === 2 ? "block" : "none" }}>
+          
+          {isOtpSent && !isVerified && (
+            <OtpVerification handleVerifyOtp={handleVerifyOtp} handleChangeEmail={handleChangeEmail} />
+          )}
+        </div>
+
+        <div style={{ display: currentStep === 3 ? "block" : "none" }}>
+          {isVerified && (
+            <PasswordReset/>
+          )}
+        </div>
+      </div>
+    </div>
   );
 };
 

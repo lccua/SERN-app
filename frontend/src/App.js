@@ -7,6 +7,7 @@ import Home from './pages/Home';
 import Navbar from './components/Navbar';
 import Login from './pages/Login';
 import Registration from './pages/Registration';
+import ForgotPassword from './pages/ForgotPassword';
 
 function App() {
   const { user } = useAuthContext(); // add "otpRequested" state
@@ -28,6 +29,11 @@ function App() {
             <Route 
               path="/registration"
               element={ !user ? <Registration /> : <Navigate to="/" />}
+            />
+
+            <Route 
+              path="/forgot-password"
+              element={ !user ? <ForgotPassword /> : <Navigate to="/" />}
             />
           </Routes>
         </div>

@@ -4,7 +4,7 @@ import { useOtpRequest } from "../../hooks/useOtpRequest";
 
 import * as Yup from "yup";
 
-const OtpRequest = ({handleOtpRequest}) => {
+const OtpRequest = ({handleOtpRequest, isNewUser}) => {
 
   const { otpRequest, error, isLoading } = useOtpRequest();
 
@@ -14,7 +14,7 @@ const OtpRequest = ({handleOtpRequest}) => {
 
     try {
 
-      const isRequested = await otpRequest(values.email);
+      const isRequested = await otpRequest(values.email, isNewUser);
       
       if (isRequested){
         handleOtpRequest(values.email, isRequested);

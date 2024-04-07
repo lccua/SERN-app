@@ -77,7 +77,7 @@ const Registration = () => {
         <div style={{ display: currentStep === 1 ? "block" : "none" }}>
           <p>Enter your email. Allready have an account? <a href="/login">Login</a></p>
           {!isOtpSent && (
-            <OtpRequest handleOtpRequest={handleRequestOtp} />
+            <OtpRequest handleOtpRequest={handleRequestOtp} isNewUser={true} />
           )}
         </div>
 

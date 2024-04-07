@@ -55,8 +55,14 @@ class UserDb {
   }
 
   async createUserAuthentication(id, email, hashedOtp, expiresTimestamp) {
-    const newUserAuthentication = await prisma.userAuthentication.create({
-      data: {
+    const newUserAuthentication = await prisma.userAuthentication.upsert({
+      where: { email },
+      update: {
+        id,
+        otp: hashedOtp,
+        expires_at: expiresTimestamp,
+      },
+      create: {
         id,
         email,
         otp: hashedOtp,
@@ -64,6 +70,17 @@ class UserDb {
       },
     });
     return newUserAuthentication;
+  }
+  
+
+
+  async updateUserPassword( email, hashedPassword ){
+    const user = await prisma.user.update({
+      where: { email },
+      data: { password: hashedPassword },
+    });
+
+    return user;
   }
 }
 

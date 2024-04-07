@@ -19,6 +19,7 @@ const Login = () => {
     <form className="signup" onSubmit={handleSubmit}>
 
       <h3>Login</h3>
+      <p> Don't have an account? <a href="/registration">Register</a></p>
       <label>Email</label>
       <input
         type="email"
@@ -31,9 +32,9 @@ const Login = () => {
         onChange={(e) => setPassword(e.target.value)}
         value={password}
         />
+      <p><a href="/forgot-password">Forgot your password?</a></p>
 
       <button disabled={isLoading}>Login</button>
-      <p> Don't have an account? <a href="/registration">Register</a></p>
       {error && <div className="error">{error}</div>}
     </form>
   );

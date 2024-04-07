@@ -1,6 +1,6 @@
 const express = require('express')
 // controller functions
-const { loginUser, signupUser, otpRequest, verifyOtp } = require('../controllers/user.controller')
+const { loginUser, signupUser, otpRequest, verifyOtp, passwordReset } = require('../controllers/user.controller')
 
 const router = express.Router()
 
@@ -15,6 +15,8 @@ router.post('/otp-verification', verifyOtp)
 
 // otp mailer 
 router.post('/otp-request', otpRequest )
+
+router.patch('/password-reset', passwordReset)
 
 
 module.exports = router
