@@ -2,17 +2,16 @@ import React, { useState, useRef } from 'react';
 import './OtpVerification.css'; // Import the CSS file for styling
 import { useOtpVerification } from '../../hooks/useOtpVerification';
 import { useVerificationContext } from "../../hooks/useVerificationContext";
+import { useOtpRequest } from "../../hooks/useOtpRequest";
 
-
-
-const OtpVerification = ({handleVerifyOtp, handleChangeEmail}) => {
+const OtpVerification = ({ handleVerifyOtp, handleChangeEmail }) => {
 
   const [otp, setOTP] = useState(['', '', '', '', '', '']);
+  const [resendSuccess, setResendSuccess] = useState(false); // State for showing resend success popup
   const inputsRef = [useRef(), useRef(), useRef(), useRef(), useRef(), useRef()];
   const { otpVerification, error, isLoading } = useOtpVerification();
   const { verification } = useVerificationContext();
-
-
+  const { otpRequest } = useOtpRequest();
 
   const handleChange = (index, value) => {
     if (isNaN(value)) return;
@@ -38,42 +37,43 @@ const OtpVerification = ({handleVerifyOtp, handleChangeEmail}) => {
     const inputOtp = inputOtpInt.toString();
 
     try {
-      
       const isVerified = await otpVerification(inputOtp);
 
-      if (isVerified){
-        handleVerifyOtp(isVerified) 
+      if (isVerified) {
+        handleVerifyOtp(isVerified)
       }
-      
+
     } catch (error) {
       console.log(error)
     }
-
-
-    // compare otpvalue with otpcode in database
-
-
-    // bcrypt compare with optInsertedValue
-    // if true route to login page
-    // if false give error message
-
   }
 
-  const handleChangeEmailClick = async () =>{
+  const handleChangeEmailClick = async () => {
     handleChangeEmail()
   }
 
- 
-  const handleResend = () => {
-    // puts new otp code in the database table
-    // puts a requestagain timing in the database table???
+  const handleResend = async () => {
+    try {
+
+      await otpRequest(verification.user.email, true);
+
+      setResendSuccess(true); // Set resend success to true to show the popup
+
+      // Hide the success message after 4 seconds
+      setTimeout(() => {
+        setResendSuccess(false);
+      }, 6000);
+
+    } catch (error) {
+      console.log(error)
+    }
   }
 
   return (
     <div className="otp-container">
       <p>
         Check your email inbox. We have sent a 6-digit verification code to
-        {verification.user.email}. This code will expire in 15 minutes. <a  href="#" onClick={handleChangeEmailClick} >Change email</a>
+        {verification.user.email}. This code will expire in 15 minutes. <a onClick={handleChangeEmailClick} >Change email</a>
       </p>
       <p>Please enter the 6-digit code sent to your email.</p>
       <div className="otp-input-container">
@@ -105,6 +105,9 @@ const OtpVerification = ({handleVerifyOtp, handleChangeEmail}) => {
         </a>
       </p>
       {error && <div className="error">{error}</div>}
+      {resendSuccess && (
+        <div className="popup"> Your new verification code has been sent to the provided email address. </div>
+      )}
     </div>
   );
 };
