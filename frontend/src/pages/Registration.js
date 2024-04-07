@@ -35,12 +35,6 @@ const Registration = () => {
     setIsOtpSent(false)
   }
 
-  const handleSignup = () => {
-    // Send signup request to your backend API
-    // Handle any signup-related logic
-    // Redirect the user to the next page or show a success message
-  };
-
   return (
     <div>
       <h1>Account Registration</h1>
