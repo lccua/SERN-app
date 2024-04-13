@@ -20,11 +20,13 @@ model User {
 }
 
 model UserAuthentication {
-  id       String    @id @default(uuid())
-  email    String    @unique
-  otp         String?
-  expires_at  DateTime?
-  user User[]
+  id              String    @id @default(uuid())
+  email           String    @unique
+  otp             String?
+  expires_at      DateTime?
+  request_count   Int       @default(0)
+  last_request    DateTime?
+  user            User[]
 }
 
 model Workout {

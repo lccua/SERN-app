@@ -4,14 +4,15 @@ import { useOtpVerification } from '../../hooks/useOtpVerification';
 import { useVerificationContext } from "../../hooks/useVerificationContext";
 import { useOtpRequest } from "../../hooks/useOtpRequest";
 
-const OtpVerification = ({ handleVerifyOtp, handleChangeEmail }) => {
+
+const OtpVerification = ({ handleVerifyOtp, handleChangeEmail }) => { //TODO: add errors for opt request 
 
   const [otp, setOTP] = useState(['', '', '', '', '', '']);
   const [resendSuccess, setResendSuccess] = useState(false); // State for showing resend success popup
   const inputsRef = [useRef(), useRef(), useRef(), useRef(), useRef(), useRef()];
   const { otpVerification, error, isLoading } = useOtpVerification();
   const { verification } = useVerificationContext();
-  const { otpRequest } = useOtpRequest();
+  const { otpRequest, } = useOtpRequest();
 
   const handleChange = (index, value) => {
     if (isNaN(value)) return;
@@ -37,6 +38,7 @@ const OtpVerification = ({ handleVerifyOtp, handleChangeEmail }) => {
     const inputOtp = inputOtpInt.toString();
 
     try {
+  
       const isVerified = await otpVerification(inputOtp);
 
       if (isVerified) {
@@ -56,6 +58,7 @@ const OtpVerification = ({ handleVerifyOtp, handleChangeEmail }) => {
     try {
 
       await otpRequest(verification.user.email, true);
+      console.log(verification.user.email)
 
       setResendSuccess(true); // Set resend success to true to show the popup
 

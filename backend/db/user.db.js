@@ -36,14 +36,15 @@ class UserDb {
 
   async getOtp(email) {
     const user = await prisma.userAuthentication.findUnique({
-      where: { email },
-      select: { otp: true },
+        where: { email },
+        select: { otp: true, expires_at: true },
     });
 
-    const otp = user ? user.otp : null;
+    const userVerification = user ? { otp: user.otp, expiresAt: user.expires_at } : null;
 
-    return otp;
+    return userVerification;
   }
+
 
   async updateUserVerification(email) {
     const user = await prisma.user.update({
@@ -82,6 +83,61 @@ class UserDb {
 
     return user;
   }
+
+
+
+  async resetOtpRequestStatus(email) {
+    const userVerification = await prisma.userAuthentication.update({
+        where: { email },
+        data: {
+            request_count: 0,
+            last_request: new Date()
+        }
+    });
+
+    return userVerification
+  }
+
+  async updateOtpRequestStatus(email) {
+   const userVerification = await prisma.userAuthentication.update({
+        where: { email },
+        data: {
+            request_count: {
+                increment: 1
+            },
+            last_request: new Date()
+        }
+    });
+    return userVerification
+
+  }
+
+
+
+  async getOtpRequestStatus(email) {
+    const userVerification = await prisma.userAuthentication.findUnique({
+        where: { email },
+        select: { request_count: true, last_request: true },
+    });
+
+    if (!userVerification) {
+      // Handle case where user is not found
+      return null;
+    }
+
+    return { requestCount: userVerification.request_count, lastRequest: userVerification.last_request }
+  }
+
+  async updateOtpCode(email, hashedOtp, expiresTimestamp) {
+    const userVerification = await prisma.userAuthentication.update({
+      where: { email },
+      data: { otp: hashedOtp, expires_at: expiresTimestamp },
+    });
+
+    return userVerification
+  }
+
+
 }
 
 module.exports = new UserDb();
