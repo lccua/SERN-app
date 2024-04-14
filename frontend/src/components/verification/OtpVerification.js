@@ -4,8 +4,7 @@ import { useOtpVerification } from '../../hooks/useOtpVerification';
 import { useVerificationContext } from "../../hooks/useVerificationContext";
 import { useOtpRequest } from "../../hooks/useOtpRequest";
 
-
-const OtpVerification = ({ handleVerifyOtp, handleChangeEmail }) => { //TODO: add errors for opt request 
+const OtpVerification = ({ handleVerifyOtp, handleChangeEmail }) => { //TODO: #2 add otprequest errors
 
   const [otp, setOTP] = useState(['', '', '', '', '', '']);
   const [resendSuccess, setResendSuccess] = useState(false); // State for showing resend success popup
