@@ -8,19 +8,20 @@ import Navbar from './components/Navbar';
 import Login from './pages/Login';
 import Registration from './pages/Registration';
 import ForgotPassword from './pages/ForgotPassword';
+import Messages from './pages/Messages';
 
 function App() {
   const { user } = useAuthContext(); // add "otpRequested" state
 
   return (
-    <div className="App">
+    <div className="app">
       <BrowserRouter>
         <Navbar />
         <div className="pages">
           <Routes>
             <Route 
               path="/"
-              element={user ? <Home /> : <Navigate to="/login" />}
+              element={user ? <Messages /> : <Navigate to="/login" />}
             />
             <Route 
               path="/login"

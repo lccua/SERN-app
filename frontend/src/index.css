@@ -3,46 +3,53 @@
 
 /* layout */
 :root {
-  --primary: #1aac83;
+  --primary: #ff7900;
   --error: #e7195a;
 }
 
 body {
-  background: #f1f1f1;
+  background: #F1F1F1;
   margin: 0;
   font-family: "Poppins";
 }
 
-header {
-  background: #fff;
-}
 
-header .container {
-  max-width: 1400px;
-  margin: 0 auto;
-  padding: 10px 20px;
+
+.app {
   display: flex;
-  align-items: center;
-  justify-content: space-between;
-}
-
-header a {
-  color: #333;
-  text-decoration: none;
 }
 
 .pages {
-  max-width: 1400px;
-  padding: 20px;
-  margin: 0 auto;
+  flex: 1; /* Take up remaining space */
+  display: flex;
+  justify-content: center; /* Center content horizontally */
 }
 
-/* homepage */
-.home {
-  display: grid;
-  grid-template-columns: 3fr 1fr;
-  gap: 100px;
+/* Navbar.css */
+.side-bar {
+  width: 200px; /* Set width of sidebar */
+  background-color: #333; /* Example background color */
+  color: white; /* Example text color */
+  padding: 20px; /* Example padding */
+  height: 100vh;
 }
+
+.message-page {
+  width: 60%;
+}
+
+
+
+header a {
+  color: #fff;
+  text-decoration: none;
+}
+
+
+
+
+
+
 
 .workout-details {
   background: #fff;
