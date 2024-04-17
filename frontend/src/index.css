@@ -11,6 +11,9 @@ body {
   background: #F1F1F1;
   margin: 0;
   font-family: "Poppins";
+  overflow: hidden;
+
+
 }
 
 
@@ -23,6 +26,7 @@ body {
   flex: 1; /* Take up remaining space */
   display: flex;
   justify-content: center; /* Center content horizontally */
+
 }
 
 /* Navbar.css */
@@ -31,12 +35,10 @@ body {
   background-color: #333; /* Example background color */
   color: white; /* Example text color */
   padding: 20px; /* Example padding */
-  height: 100vh;
+  height: 100%;
 }
 
-.message-page {
-  width: 60%;
-}
+
 
 
 
@@ -89,15 +91,7 @@ input {
   display: block;
 }
 
-input {
-  padding: 10px;
-  margin-top: 10px;
-  margin-bottom: 20px;
-  width: 100%;
-  border: 1px solid #ddd;
-  border-radius: 4px;
-  box-sizing: border-box;
-}
+
 
 form button {
   background: var(--primary);
@@ -153,3 +147,124 @@ form.login {
   background: #fff;
   border-radius: 4px;
 }
+
+
+/* ============================================ */
+/*            || Chat.js                        */
+/* ============================================ */
+.chat-page {
+  display: flex;
+  align-items: center;
+  flex-direction: column;
+  width: 100%;
+
+
+
+  
+}
+
+
+/* ============================================ */
+/*            || ChatMessage.js                 */
+/* ============================================ */
+
+.chat-message {
+  display: inline-block;
+  margin-bottom: 10px;
+  word-wrap: break-word;
+ 
+
+}
+
+.message-content {
+  background-color: #e5e5ea; /* Message bubble color */
+  padding: 10px 15px;
+  border-radius: 20px; /* Adjust for more rounded corners */
+  float: left;
+
+}
+
+/* Right-aligned message */
+.chat-message.future-me .message-content {
+  background-color: var(--primary); /* Your color choice */
+  color: #fff; /* Text color */
+}
+
+
+
+
+/* ============================================  */
+/*            || ChatMessageList.js              */
+/* ============================================  */
+
+.chat-message-list {
+
+  display: flex;
+  flex-direction: column; /* Display messages vertically */
+  overflow: hidden;
+  overflow-y: scroll;
+
+
+  max-height: 80vh;
+
+}
+
+
+/* ============================================  */
+/*            || ChatMessageInput.js             */
+/* ============================================  */
+
+.chat-footer {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
+
+.chat-input-container {
+ 
+  display: flex;
+  align-items: center;
+
+  justify-content: center;
+  padding-bottom: 35px;
+  width: 50rem;
+  background-color: #f1f1f1;
+ 
+  /*overflow: scroll; */
+}
+
+.message-input {
+  flex-grow: 1;
+  padding: 12px 15px;
+  border: 1px solid #ccc;
+  border-radius: 25px;
+  margin-right: 10px;
+  font-size: 14px;
+  outline: none;
+  background-color: #f9f9f9;
+  color: #333;
+  
+
+ 
+}
+
+.send-button {
+  padding: 12px 25px;
+  background-color: var(--primary);
+  color: white;
+  border: none;
+  border-radius: 25px;
+  cursor: pointer;
+  font-size: 14px;
+}
+
+
+
+
+
+
+
+
+

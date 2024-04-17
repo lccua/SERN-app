@@ -8,7 +8,7 @@ import Navbar from './components/Navbar';
 import Login from './pages/Login';
 import Registration from './pages/Registration';
 import ForgotPassword from './pages/ForgotPassword';
-import Messages from './pages/Messages';
+import Messages from './pages/Chat';
 
 function App() {
   const { user } = useAuthContext(); // add "otpRequested" state
