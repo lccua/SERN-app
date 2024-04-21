@@ -1,64 +1,69 @@
-// MessagePage.js
+import React, { useState, useRef, useEffect } from 'react';
+import './Chat.css'; // Import CSS file for styling
 
-import React, { useState, useEffect } from 'react';
-import ChatMessages from '../components/ChatMessageList';
-import ChatInput from '../components/ChatInput';
+const DummyMessages = [
+  { id: 1, sender: 'John', message: 'Hey there!' },
+  { id: 2, sender: 'Jane', message: 'Hi John, how are you?' },
+  { id: 3, sender: 'John', message: 'I\'m good, thanks! How about you?' },
+  { id: 4, sender: 'Jane', message: 'I\'m doing well too, thanks for asking.' },
+  { id: 5, sender: 'Jane', message: 'What are you up to?' },
+  { id: 6, sender: 'John', message: 'Just working on some coding projects.' },
+  { id: 7, sender: 'Jane', message: 'That sounds interesting! Wish you luck!' },
+  { id: 8, sender: 'John', message: 'Thanks!' }
+];
 
 const Chat = () => {
-
+  const [messages, setMessages] = useState(DummyMessages);
+  const [newMessage, setNewMessage] = useState('');
+  const chatRef = useRef();
 
   useEffect(() => {
-    fetchMessages();
-  }, []);
-
-  // Function to fetch messages
-  const fetchMessages = async () => {
-    try {
-
-    } catch (error) {
-      console.error('Error fetching messages:', error);
-    }
-  };
-
-  // Function to handle sending a new message
-  const sendMessage = async () => {
-    try {
-
-    } catch (error) {
-      console.error('Error sending message:', error);
-    }
-  };
-
+    // Scroll to the bottom of the chat on initial render and whenever new messages are added
+    chatRef.current.scrollTop = chatRef.current.scrollHeight;
+  }, [messages]);
 
   
 
-  const messages = [
-    { text: "Hello there!", sender: "me" },
-    { text: "Hi! How can I help you?", sender: "other" },
-    { text: "Hi! How can I help you?", sender: "other" },
-    { text: "Hello there!", sender: "me" },
-    { text: "Hi! How can I help you?", sender: "other" },
-    { text: "Hi! How can I help you?", sender: "other" },
-    { text: "Hello there!", sender: "me" },
-    { text: "Hi! How can I help you?", sender: "other" },
-    { text: "Hi! How can I help you?", sender: "other" },
-    { text: "Hello there!", sender: "me" },
-    { text: "Hi! How can I help you?", sender: "other" },
-    { text: "Hi! How can I help you?", sender: "other" },
+  const handleMessageChange = (e) => {
+    setNewMessage(e.target.value);
+  };
 
-
-    { text: "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed eleifend libero id libero ultricies. Nulla facilisi. Phasellus pulvinar, eros eget pellentesque viverra, odio est laoreet urna, nec consequat libero nunc sed mauris. Sed faucibus nisl sit amet leo dapibus, nec viverra mauris consequat. Maecenas vel suscipit libero. Fusce non dolor a magna gravida venenatis. Aliquam erat volutpat. Vivamus id orci vitae ", sender: "other" }
-    
-  ];
-
-  
+  const handleSendMessage = () => {
+    if (newMessage.trim() === '') return; // Don't send empty messages
+    const newMsg = {
+      id: messages.length + 1,
+      sender: 'You', // Assuming the user sending the message is the current user
+      message: newMessage
+    };
+    setMessages([...messages, newMsg]);
+    setNewMessage('');
+  };
 
   return (
-    <div className="chat-page">
-    <h1>Title</h1>
-    <ChatMessages messages={messages} />
-    <ChatInput onSendMessage={sendMessage} />
-  </div>
+    <div className="chat-container">
+      <div className='chat-header'>
+        <h2 className='chat-header-title'>Chat header</h2>
+      </div>
+      <div className="chat" ref={chatRef}>
+        {messages.map((msg) => (
+          <div key={msg.id} className='chat-msg '>
+            <strong>{msg.sender}: </strong>
+            <span>{msg.message}</span>
+          </div>
+        ))}
+      </div>
+      <div className="input-container">
+        <div className="input-field">
+          <input
+            type="text"
+            value={newMessage}
+            onChange={handleMessageChange}
+            placeholder="Type your message..."
+          />
+          <button onClick={handleSendMessage}>Send</button>
+        </div>
+      </div>
+    </div>
   );
 };
 

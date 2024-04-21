@@ -205,7 +205,9 @@ form.login {
   overflow-y: scroll;
 
 
-  max-height: 80vh;
+  max-height: 650px;
+  width: 100%;
+
 
 }
 
