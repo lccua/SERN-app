@@ -1,0 +1,77 @@
+.chat-container {
+  height: 100vh;
+  display: flex;
+  flex-direction: column;
+  justify-content: center; /* Align the chat container vertically in the middle */
+  width: 100%;
+  
+}
+
+.chat {
+  flex: 1;
+  overflow-y: auto;
+  padding-left: 20vw;
+  padding-right: 20vw;
+}
+
+.chat-msg {
+  background-color: #e5e5ea; /* Message bubble color */
+  padding: 10px 15px;
+  border-radius: 20px; /* Adjust for more rounded corners */
+  margin-bottom: 10px; /* Add margin between messages */
+  margin-top: 10px;
+}
+
+.future-me {
+  background-color: #ff7900; /* Message bubble color */
+ 
+}
+
+.chat-header {
+  background-color: #fff;
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center; /* Align the chat container vertically in the middle */
+  position: sticky; /* Make the input container sticky */
+  top: 0; /* Stick the input container to the bottom */
+}
+
+.input-container {
+  width: 100%;
+  background-color: #fff;
+  display: flex;
+  align-items: center;
+  justify-content: center; /* Align the chat container vertically in the middle */
+  position: sticky; /* Make the input container sticky */
+  bottom: 0; /* Stick the input container to the bottom */
+}
+
+.input-field {
+  display: flex;
+  flex-direction: row;
+  padding: 10px;
+  width: 50vw;
+
+}
+
+input[type="text"] {
+  flex: 1;
+  padding: 8px;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  margin-right: 10px;
+}
+
+button {
+  padding: 8px 16px;
+  background-color: #ff7900;
+  color: #fff;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+}
+
+button:hover {
+  background-color: #ff6900;
+}
