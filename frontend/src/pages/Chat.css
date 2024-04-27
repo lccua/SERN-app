@@ -15,12 +15,24 @@
 }
 
 .chat-msg {
-  background-color: #e5e5ea; /* Message bubble color */
+  background-color: #e5e5ea; /* Default message bubble color */
   padding: 10px 15px;
   border-radius: 20px; /* Adjust for more rounded corners */
   margin-bottom: 10px; /* Add margin between messages */
   margin-top: 10px;
 }
+
+.future-me {
+  background-color: #ff7900; /* Message bubble color for 'future-me' */
+  color: #fff ;
+}
+
+
+/* Chat.css */
+.orange-background {
+  background-color: #ff7900;
+}
+
 
 .future-me {
   background-color: #ff7900; /* Message bubble color */
@@ -55,6 +67,8 @@
 
 }
 
+
+
 input[type="text"] {
   flex: 1;
   padding: 8px;
@@ -72,6 +86,9 @@ button {
   cursor: pointer;
 }
 
-button:hover {
-  background-color: #ff6900;
+
+
+.button-disabled {
+  background-color: #ccc; /* Grey out the button */
+  cursor: default; /* Change cursor to indicate not clickable */
 }
