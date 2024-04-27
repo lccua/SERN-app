@@ -42,6 +42,7 @@
 .chat-header {
   background-color: #fff;
   width: 100%;
+  height: 60px;
   display: flex;
   align-items: center;
   justify-content: center; /* Align the chat container vertically in the middle */

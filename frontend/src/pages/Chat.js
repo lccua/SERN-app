@@ -3,8 +3,7 @@ import "./Chat.css"; // Import CSS file for styling
 import "./ToggleSwitch.css";
 
 const DummyMessages = [
-  { id: 1, sender: "future-me", message: "Hey there!" },
-  { id: 2, sender: "present-me", message: "Hi John, how are you?" },
+  
 ];
 
 const Chat = () => {
@@ -53,7 +52,6 @@ const Chat = () => {
   return (
     <div className="chat-container">
       <div className="chat-header">
-        <h2 className="chat-header-title">Chat header</h2>
       </div>
       <div className="chat" ref={chatRef}>
         {messages.map((msg) => (
