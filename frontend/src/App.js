@@ -8,7 +8,7 @@ import Navbar from './components/Navbar';
 import Login from './pages/Login';
 import Registration from './pages/Registration';
 import ForgotPassword from './pages/ForgotPassword';
-import Messages from './pages/Chat';
+import Chat from './pages/Chat';
 
 function App() {
   const { user } = useAuthContext(); // add "otpRequested" state
@@ -21,7 +21,7 @@ function App() {
           <Routes>
             <Route 
               path="/"
-              element={user ? <Messages /> : <Navigate to="/login" />}
+              element={user ? <Chat /> : <Navigate to="/login" />}
             />
             <Route 
               path="/login"

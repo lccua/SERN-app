@@ -7,36 +7,42 @@ datasource db {
   url      = env("DATABASE_URL")
 }
 
-model User {
-  id       String    @id @default(uuid())
-  email    String    @unique
-  username String    @unique
-  password String?
-  created_at  DateTime?
-  updated_at  DateTime? 
-  userAuthentication  UserAuthentication  @relation(fields: [user_authtentication_id], references: [id])
-  user_authtentication_id String
-  workouts Workout[]
+model user {
+  id                   String            @id @default(uuid())
+  email                String            @unique
+  username             String            @unique
+  password             String?
+  created_at           DateTime?
+  updated_at           DateTime?
+  user_verification    user_verification @relation(fields: [user_verification_id], references: [id])
+  user_verification_id String
+  conversation         conversation[]
 }
 
-model UserAuthentication {
-  id              String    @id @default(uuid())
-  email           String    @unique
-  otp             String?
-  expires_at      DateTime?
-  request_count   Int       @default(0)
-  last_request    DateTime?
-  user            User[]
+model user_verification {
+  id            String    @id @default(uuid())
+  email         String    @unique
+  otp           String?
+  expires_at    DateTime?
+  request_count Int       @default(0)
+  last_request  DateTime?
+  user          user[]
 }
 
-model Workout {
-  id       String    @id @default(uuid())
-  title    String   
-  reps     Int
-  load     Int
-  user     User      @relation(fields: [user_id], references: [id])
-  user_id   String
-  created_at  DateTime  @default(now())
+model conversation {
+  id         String    @id @default(uuid())
+  name       String
+  created_at DateTime  @default(now())
+  user       user      @relation(fields: [user_id], references: [id])
+  user_id    String
+  message    message[]
 }
 
-
+model message {
+  id              String       @id @default(uuid())
+  content         String
+  sent_at         DateTime
+  is_future       Boolean
+  conversation    conversation @relation(fields: [conversation_id], references: [id])
+  conversation_id String
+}

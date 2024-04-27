@@ -9,7 +9,7 @@ class UserDb {
         username: username,
         password: hashedPassword,
         created_at: new Date(),
-        userAuthentication: {
+        user_verification: {
           connect: { id: userAuthenticationId },
         }, 
       },
@@ -35,7 +35,7 @@ class UserDb {
   }
 
   async getOtp(email) {
-    const user = await prisma.userAuthentication.findUnique({
+    const user = await prisma.user_verification.findUnique({
         where: { email },
         select: { otp: true, expires_at: true },
     });
@@ -56,7 +56,7 @@ class UserDb {
   }
 
   async createUserAuthentication(id, email, hashedOtp, expiresTimestamp) {
-    const newUserAuthentication = await prisma.userAuthentication.upsert({
+    const newUserAuthentication = await prisma.user_verification.upsert({
       where: { email },
       update: {
         id,
@@ -72,8 +72,6 @@ class UserDb {
     });
     return newUserAuthentication;
   }
-  
-
 
   async updateUserPassword( email, hashedPassword ){
     const user = await prisma.user.update({
@@ -84,10 +82,8 @@ class UserDb {
     return user;
   }
 
-
-
   async resetOtpRequestStatus(email) {
-    const userVerification = await prisma.userAuthentication.update({
+    const userVerification = await prisma.user_verification.update({
         where: { email },
         data: {
             request_count: 0,
@@ -99,7 +95,7 @@ class UserDb {
   }
 
   async updateOtpRequestStatus(email) {
-   const userVerification = await prisma.userAuthentication.update({
+   const userVerification = await prisma.user_verification.update({
         where: { email },
         data: {
             request_count: {
@@ -112,10 +108,8 @@ class UserDb {
 
   }
 
-
-
   async getOtpRequestStatus(email) {
-    const userVerification = await prisma.userAuthentication.findUnique({
+    const userVerification = await prisma.user_verification.findUnique({
         where: { email },
         select: { request_count: true, last_request: true },
     });
@@ -129,7 +123,7 @@ class UserDb {
   }
 
   async updateOtpCode(email, hashedOtp, expiresTimestamp) {
-    const userVerification = await prisma.userAuthentication.update({
+    const userVerification = await prisma.user_verification.update({
       where: { email },
       data: { otp: hashedOtp, expires_at: expiresTimestamp },
     });

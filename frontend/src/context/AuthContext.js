@@ -8,11 +8,9 @@ export const AuthContext = createContext();
 export const AuthContextProvider = ({ children }) => {
   const [state, dispatch] = useReducer(authReducer, {
     user: null,
-    otpRequested: null,
   });
 
   useEffect(() => {
-    console.log("authxontext")
     const user = JSON.parse(localStorage.getItem("user"));
     console.log(user)
 
