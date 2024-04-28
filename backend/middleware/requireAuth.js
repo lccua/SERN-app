@@ -1,11 +1,12 @@
 const jwt = require("jsonwebtoken");
-const { PrismaClient } = require("@prisma/client");
+const prisma = require("../db/client/prismaClient");
 
-const prisma = new PrismaClient();
 
 const requireAuth = async (req, res, next) => {
+
   // Verify authentication
   const { authorization } = req.headers;
+
 
   if (!authorization) {
     return res.status(401).json({ error: "Auth token required" });
@@ -28,7 +29,6 @@ const requireAuth = async (req, res, next) => {
     req.user = user; // Attach the user object to the request
     next();
   } catch (error) {
-    console.log(error);
     res.status(401).json({ error: "Request is not authorized" });
   }
 };

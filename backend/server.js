@@ -3,6 +3,7 @@ require('dotenv').config();
 const express = require('express');
 const workoutRoutes = require('./routes/workouts');
 const userRoutes = require('./routes/user');
+const conversationsRoutes = require('./routes/conversations')
 
 // Express app
 const app = express();
@@ -18,6 +19,7 @@ app.use((req, res, next) => {
 // Routes
 app.use('/api/workouts', workoutRoutes);
 app.use('/api/user', userRoutes);
+app.use('/api/conversations', conversationsRoutes)
 
 // Connect to server
 app.listen(process.env.PORT, () => {
