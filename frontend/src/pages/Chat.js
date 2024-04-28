@@ -1,20 +1,17 @@
+// Chat.js
+
 import React, { useState, useRef, useEffect } from "react";
-import "./Chat.css"; // Import CSS file for styling
-import "./ToggleSwitch.css";
+import { v4 as uuidv4 } from 'uuid';
+import "./Chat.css";
 
-const DummyMessages = [
-  { id: 1, sender: "future-me", message: "Hey there!" },
-  { id: 2, sender: "present-me", message: "Hi John, how are you?" },
-];
+const DummyMessages = []; 
 
-const Chat = () => {
+const Chat = ({ selectedConversation }) => {
   const [messages, setMessages] = useState(DummyMessages);
   const [newMessage, setNewMessage] = useState("");
   const chatRef = useRef();
-  const [isSwitchOn, setIsSwitchOn] = useState(false);
 
   useEffect(() => {
-    // Scroll to the bottom of the chat on initial render and whenever new messages are added
     chatRef.current.scrollTop = chatRef.current.scrollHeight;
   }, [messages]);
 
@@ -23,19 +20,14 @@ const Chat = () => {
   };
 
   const handleSendMessage = () => {
-    if (newMessage.trim() === "") return; // Don't send empty messages
-    const sender = isSwitchOn ? "future-me" : "present-me"; // Determine the sender based on the toggle state
+    if (newMessage.trim() === "") return;
     const newMsg = {
-      id: messages.length + 1,
-      sender: sender, // Assign the determined sender
+      id: uuidv4(),
+      sender: "present-me",
       message: newMessage,
     };
     setMessages([...messages, newMsg]);
     setNewMessage("");
-    setIsSwitchOn(!isSwitchOn);
-
-
-
   };
 
   const handleKeyPress = (e) => {
@@ -44,35 +36,24 @@ const Chat = () => {
     }
   };
 
-  const toggleSwitch = () => {
-    setIsSwitchOn(!isSwitchOn);
-    console.log(isSwitchOn); // Log the state to the console
-    // Do something based on the switch state
-  };
-
   return (
     <div className="chat-container">
       <div className="chat-header">
-        <h2 className="chat-header-title">Chat header</h2>
+        <h1>{selectedConversation ? selectedConversation.name : 'No Conversation Selected'}</h1>
+        <span>ID: {selectedConversation ? selectedConversation.id : ''}</span>
       </div>
       <div className="chat" ref={chatRef}>
         {messages.map((msg) => (
           <div
             key={msg.id}
-            className={`chat-msg ${
-              msg.sender === "future-me" ? "future-me" : ""
-            }`}
+            className="chat-msg"
           >
             <span>{msg.message}</span>
           </div>
         ))}
       </div>
       <div className="input-container">
-        <label className="switch">
-          <input type="checkbox" onChange={toggleSwitch} checked={isSwitchOn} />
-          <span className="slider"></span>
-        </label>
-        <div className={`input-field ${isSwitchOn ? "" : "orange-focus"}`}>
+        <div className="input-field">
           <input
             type="text"
             value={newMessage}
@@ -82,7 +63,6 @@ const Chat = () => {
           />
           <button
             onClick={handleSendMessage}
-            className={newMessage.trim() === "" ? "button-disabled" : ""}
             disabled={!newMessage.trim()}
           >
             Send
