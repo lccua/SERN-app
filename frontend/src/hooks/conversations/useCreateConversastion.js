@@ -3,7 +3,7 @@ import { useAuthContext } from "../useAuthContext";
 import { useConversationsContext } from "./useConversationsContext";
 
 
-export const useGetConversations = () => {
+export const useCreateConversation = () => {
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState(null);
   const { user } = useAuthContext();
@@ -22,8 +22,6 @@ export const useGetConversations = () => {
       }
     })
     const json = await response.json()
-
-    console.log(json)
 
     if (!response.ok) {
       setIsLoading(false);

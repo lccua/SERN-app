@@ -4,6 +4,7 @@ import React, { useState, useRef, useEffect } from "react";
 import { v4 as uuidv4 } from 'uuid';
 import "./Chat.css";
 import { useGetMessages } from "../hooks/messages/useGetMessages";
+import { useCreateConversation } from "../hooks/conversations/useCreateConversastion";
 import { useMessageContext } from "../hooks/messages/useMessageContext";
 import { useAuthContext } from "../hooks/useAuthContext";
 
@@ -12,15 +13,24 @@ import { useAuthContext } from "../hooks/useAuthContext";
 const Chat = ({ selectedConversation }) => {
   const [newMessage, setNewMessage] = useState("");
 
+  const [isNewConversation, setIsNewConversation] = useState(false);
+
+
   const { messages } = useMessageContext();
-  const { error, isLoading, getMessages } = useGetMessages(); //todo: add isloading and error to the html
+  const { getError, isLoading, getMessages } = useGetMessages(); //todo: add isloading and error to the html
+  const { createError, createConversation } = useCreateConversation(); //todo: add isloading and error to the html
   const { user } = useAuthContext();
 
   const chatRef = useRef();
 
   useEffect(() => {
-    console.log(selectedConversation)
-    if (selectedConversation) {
+
+    if (!selectedConversation) {
+
+      setIsNewConversation(true);
+
+    } else if (selectedConversation) {
+
       getMessages(selectedConversation.id)
 
     }
@@ -33,12 +43,16 @@ const Chat = ({ selectedConversation }) => {
 
   const handleSendMessage = () => {
     if (newMessage.trim() === "") return;
-    const newMsg = {
-      id: uuidv4(),
-      sender: "present-me",
-      message: newMessage,
-    };
-    //create new message
+    const messageContent = newMessage;
+
+    if (isNewConversation) {
+      createConversation();
+      setIsNewConversation(false);
+    }
+
+    // saveMessage(messageContent); => this is a useHook 
+    // => this usehook will use ConversationContext.js to get the conversationId
+
     setNewMessage("");
   };
 
