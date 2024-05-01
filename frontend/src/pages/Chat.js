@@ -3,17 +3,29 @@
 import React, { useState, useRef, useEffect } from "react";
 import { v4 as uuidv4 } from 'uuid';
 import "./Chat.css";
+import { useGetMessages } from "../hooks/messages/useGetMessages";
+import { useMessageContext } from "../hooks/messages/useMessageContext";
+import { useAuthContext } from "../hooks/useAuthContext";
 
-const DummyMessages = []; 
+
 
 const Chat = ({ selectedConversation }) => {
-  const [messages, setMessages] = useState(DummyMessages);
   const [newMessage, setNewMessage] = useState("");
+
+  const { messages } = useMessageContext();
+  const { error, isLoading, getMessages } = useGetMessages(); //todo: add isloading and error to the html
+  const { user } = useAuthContext();
+
   const chatRef = useRef();
 
   useEffect(() => {
+    console.log(selectedConversation)
+    if (selectedConversation) {
+      getMessages(selectedConversation.id)
+
+    }
     chatRef.current.scrollTop = chatRef.current.scrollHeight;
-  }, [messages]);
+  }, [selectedConversation, user]);
 
   const handleMessageChange = (e) => {
     setNewMessage(e.target.value);
@@ -26,7 +38,7 @@ const Chat = ({ selectedConversation }) => {
       sender: "present-me",
       message: newMessage,
     };
-    setMessages([...messages, newMsg]);
+    //create new message
     setNewMessage("");
   };
 
@@ -39,19 +51,27 @@ const Chat = ({ selectedConversation }) => {
   return (
     <div className="chat-container">
       <div className="chat-header">
-        <h1>{selectedConversation ? selectedConversation.name : 'No Conversation Selected'}</h1>
-        <span>ID: {selectedConversation ? selectedConversation.id : ''}</span>
+        <h1>
+          {selectedConversation
+            ? selectedConversation.name
+            : "No Conversation Selected"}
+        </h1>
+        <span>ID: {selectedConversation ? selectedConversation.id : ""}</span>
       </div>
-      <div className="chat" ref={chatRef}>
-        {messages.map((msg) => (
-          <div
-            key={msg.id}
-            className="chat-msg"
-          >
-            <span>{msg.message}</span>
-          </div>
-        ))}
+
+      {isLoading ? ( // Render loading indicator if isLoading is true
+        <div className="chat loading">Loading...</div>
+      ) : (
+        <div className="chat" ref={chatRef}>
+        {messages &&
+          messages.map((msg) => (
+            <div key={msg.id} className="chat-msg">
+              <span>{msg.content}</span>
+            </div>
+          ))}
       </div>
+      )}
+
       <div className="input-container">
         <div className="input-field">
           <input
@@ -61,10 +81,7 @@ const Chat = ({ selectedConversation }) => {
             onKeyPress={handleKeyPress}
             placeholder="Type your message..."
           />
-          <button
-            onClick={handleSendMessage}
-            disabled={!newMessage.trim()}
-          >
+          <button onClick={handleSendMessage} disabled={!newMessage.trim()}>
             Send
           </button>
         </div>

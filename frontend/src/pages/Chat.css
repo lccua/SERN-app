@@ -14,6 +14,13 @@
   padding-right: 20vw;
 }
 
+.loading {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+}
+
 .chat-msg {
   background-color: #e5e5ea; /* Default message bubble color */
   padding: 10px 15px;

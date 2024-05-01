@@ -10,7 +10,7 @@ export const conversationsReducer = (state, action) => {
       }
     case 'DELETE_CONVERSATION':
       return {
-        conversations: state.workouts.filter((c) => c.id !== action.payload.id)
+        conversations: state.conversations.filter((c) => c.id !== action.payload.id)
       }
     default:
       return state

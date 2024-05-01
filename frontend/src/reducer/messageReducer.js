@@ -1,4 +1,4 @@
-export const messagesRecuder = (state, action) => {
+export const messageRecuder = (state, action) => {
   switch (action.type) {
     case 'SET_MESSAGES': 
       return {
@@ -10,7 +10,7 @@ export const messagesRecuder = (state, action) => {
       }
     case 'DELETE_MESSAGE':
       return {
-        messages: state.workouts.filter((m) => m.id !== action.payload.id)
+        messages: state.messages.filter((m) => m.id !== action.payload.id)
       }
     default:
       return state

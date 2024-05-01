@@ -25,13 +25,11 @@ export const useGetConversations = () => {
     console.log(json)
 
     if (!response.ok) {
-      console.log("didn't go as planned")
       setIsLoading(false);
       setError(json.error);
     }
 
     if (response.ok) {
-      console.log("lets go we did it baby")
 
       // update the conversations context
       dispatch({ type: "SET_CONVERSATIONS", payload: json });
