@@ -27,9 +27,9 @@ class ConversationService {
       const conversationId = UUIDv4Generator(); 
       const name = getCurrentDateFormatted()
 
-      const conversationData = { conversationId, name };
+      const conversationData = { conversationId, name, userId };
 
-      const conversation = await conversationDb.createConversation( { conversationData , userId }  );
+      const conversation = await conversationDb.createConversation( { conversationData }  );
 
 
       return conversation;

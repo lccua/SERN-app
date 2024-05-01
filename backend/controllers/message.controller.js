@@ -21,6 +21,26 @@ const getAllMessagesByConversationId = async (req, res) => {
 };
 
 
+// saves a new message
+const createMessage = async (req, res) => {
+  
+  try {
+    //todo: req.conversation.id?
+
+    const { conversationId, messageContent } = req.body;
+
+    const message = await messageService.createMessage( {conversationId, messageContent} );
+
+    res.status(200).json(message);
+
+  } catch (error) {
+    throw new ErrorHandler(error.statusCode, error.message);
+  }
+
+};
+
+
 module.exports = {
-  getAllMessagesByConversationId
+  getAllMessagesByConversationId,
+  createMessage
 };

@@ -14,9 +14,9 @@ class ConversationDb {
     }
   }
 
-  async createConversation({ conversationData, userId }) {
+  async createConversation({ conversationData }) {
     try {
-      const { conversationId, name } = conversationData;
+      const { conversationId, name, userId } = conversationData;
       const conversation = await prisma.conversation.create({
         data: {
           id: conversationId,

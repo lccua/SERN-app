@@ -16,6 +16,24 @@ class MessageService {
     }
   }
 
+  async createMessage( {conversationId, messageContent} ) {
+
+    try {
+
+      const messageId = UUIDv4Generator(); 
+
+      const messageData = { messageId, messageContent, conversationId };
+
+      const message = await messageDb.createMessage( { messageData }  );
+
+
+      return message;
+
+    } catch (error) {
+      throw new ErrorHandler(error.statusCode, error.message);
+    }
+  }
+
  
 
 }
