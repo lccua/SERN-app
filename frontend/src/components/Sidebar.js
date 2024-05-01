@@ -10,7 +10,7 @@ import "./Sidebar.css";
 
 const Sidebar = ({ setSelectedConversation }) => {
   const { logout } = useLogout();
-  const { error, isLoading, getConversations } = useGetConversations();
+  const { error, isLoading, getConversations } = useGetConversations(); //todo: add isloading and error to the html
   const { conversations } = useConversationsContext();
   const { user } = useAuthContext();
   const navigate = useNavigate(); // Add useNavigate hook
