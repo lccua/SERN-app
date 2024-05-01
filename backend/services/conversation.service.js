@@ -1,5 +1,5 @@
 const conversationDb = require("../db/conversation.db");
-const { dateFormater } = require("../helpers/date.helper");
+const { getCurrentDateFormatted } = require("../helpers/date.helper");
 const { ErrorHandler } = require("../helpers/error.helper");
 const { UUIDv4Generator } = require("../helpers/uuid.helper");
 
@@ -24,8 +24,8 @@ class ConversationService {
 
     try {
 
-      const conversationId = UUIDv4Generator();
-      const name =  dateFormater()
+      const conversationId = UUIDv4Generator(); 
+      const name = getCurrentDateFormatted()
 
       const conversationData = { conversationId, name };
 
