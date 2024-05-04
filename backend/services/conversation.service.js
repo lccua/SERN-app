@@ -20,13 +20,14 @@ class ConversationService {
 
  
 
-  async createConversation( { userId } ) {
+  async createConversation(  userId  ) {
 
     try {
 
       const conversationId = UUIDv4Generator(); 
       const name = getCurrentDateFormatted()
 
+      console.log("this is my userid" + userId)
       const conversationData = { conversationId, name, userId };
 
       const conversation = await conversationDb.createConversation( { conversationData }  );

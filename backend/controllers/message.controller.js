@@ -27,9 +27,12 @@ const createMessage = async (req, res) => {
   try {
     //todo: req.conversation.id?
 
-    const { conversationId, messageContent } = req.body;
+    console.log("am here now")
 
-    const message = await messageService.createMessage( {conversationId, messageContent} );
+
+    const { conversationId, messageContent, isFuture } = req.body;
+
+    const message = await messageService.createMessage( {conversationId, messageContent, isFuture} );
 
     res.status(200).json(message);
 
