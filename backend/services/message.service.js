@@ -1,5 +1,7 @@
 const messageDb = require("../db/message.db");
 const { ErrorHandler } = require("../helpers/error.helper");
+const { UUIDv4Generator } = require("../helpers/uuid.helper");
+
 
 
 class MessageService {
@@ -16,13 +18,13 @@ class MessageService {
     }
   }
 
-  async createMessage( {conversationId, messageContent} ) {
+  async createMessage( {conversationId, messageContent, isFuture} ) {
 
     try {
 
       const messageId = UUIDv4Generator(); 
 
-      const messageData = { messageId, messageContent, conversationId };
+      const messageData = { messageId, messageContent, isFuture, conversationId };
 
       const message = await messageDb.createMessage( { messageData }  );
 

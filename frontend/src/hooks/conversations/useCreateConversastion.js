@@ -2,7 +2,6 @@ import { useState } from "react";
 import { useAuthContext } from "../useAuthContext";
 import { useConversationsContext } from "./useConversationsContext";
 
-
 export const useCreateConversation = () => {
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState(null);
@@ -10,7 +9,6 @@ export const useCreateConversation = () => {
   const { dispatch } = useConversationsContext();
 
   const createConversation = async () => {
-    
     setIsLoading(true);
     setError(null);
 
@@ -20,8 +18,8 @@ export const useCreateConversation = () => {
         'Content-Type': 'application/json',
         'Authorization': `Bearer ${user.token}`
       }
-    })
-    const json = await response.json()
+    });
+    const json = await response.json();
 
     if (!response.ok) {
       setIsLoading(false);
@@ -29,9 +27,11 @@ export const useCreateConversation = () => {
     }
 
     if (response.ok) {
-      // update the conversations context
+      // Update the conversations context
       dispatch({ type: "CREATE_CONVERSATION", payload: json });
       setIsLoading(false);
+      // Return the newly created conversation
+      return json;
     }
   };
 

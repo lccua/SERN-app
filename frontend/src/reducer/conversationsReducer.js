@@ -7,6 +7,7 @@ export const conversationsReducer = (state, action) => {
     case 'CREATE_CONVERSATION':
       return {
         conversations: [action.payload, ...state.conversations]
+        // todo: add conversation: null 
       }
     case 'DELETE_CONVERSATION':
       return {

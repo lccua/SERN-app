@@ -5,7 +5,7 @@ export const MessageContext = createContext()
 
 export const MessageContextProvider = ({ children }) => {
   const [state, dispatch] = useReducer(messageRecuder, {
-    messages: null
+    messages: []
   })
 
   return (

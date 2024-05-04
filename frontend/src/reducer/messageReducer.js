@@ -4,7 +4,7 @@ export const messageRecuder = (state, action) => {
       return {
         messages: action.payload
       }
-    case 'SAVE_MESSAGE':
+    case 'CREATE_MESSAGE':
       return {
         messages: [action.payload, ...state.messages]
       }
