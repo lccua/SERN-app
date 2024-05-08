@@ -25,10 +25,6 @@ const getAllMessagesByConversationId = async (req, res) => {
 const createMessage = async (req, res) => {
   
   try {
-    //todo: req.conversation.id?
-
-    console.log("am here now")
-
 
     const { conversationId, messageContent, isFuture } = req.body;
 

@@ -1,7 +1,7 @@
 import { useState } from "react";
 import OtpVerification from '../components/verification/OtpVerification';
 import OtpRequest from '../components/verification/OtpRequest';
-import PasswordReset from "../components/PasswordReset";
+import PasswordReset from "../components/verification/PasswordReset";
 
 const ForgotPassword = () => {
   const [isOtpSent, setIsOtpSent] = useState(false);

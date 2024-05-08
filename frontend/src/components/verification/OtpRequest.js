@@ -1,6 +1,6 @@
 import React from "react";
 import { Formik, Form, Field, ErrorMessage } from "formik";
-import { useOtpRequest } from "../../hooks/useOtpRequest";
+import { useOtpRequest } from "../../hooks/verification/useOtpRequest";
 
 import * as Yup from "yup";
 

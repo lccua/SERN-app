@@ -33,6 +33,8 @@ const createConversation = async (req, res) => {
 
     const conversation = await conversationService.createConversation(  userId  );
 
+    req.conversation = conversation;
+
     res.status(200).json(conversation);
 
   } catch (error) {

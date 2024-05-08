@@ -3,6 +3,7 @@ const getCurrentDateFormatted = () => {
     day: 'numeric',
     month: 'long',
     year: 'numeric',
+    hour12: false, 
     hour: 'numeric',
     minute: 'numeric',
     second: 'numeric'
