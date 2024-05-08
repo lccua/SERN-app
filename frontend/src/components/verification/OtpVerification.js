@@ -1,8 +1,8 @@
 import React, { useState, useRef } from 'react';
 import './OtpVerification.css'; // Import the CSS file for styling
-import { useOtpVerification } from '../../hooks/useOtpVerification';
-import { useVerificationContext } from "../../hooks/useVerificationContext";
-import { useOtpRequest } from "../../hooks/useOtpRequest";
+import { useOtpVerification } from '../../hooks/verification/useOtpVerification';
+import useVerificationContext from "../../hooks/context/useVerificationContext";
+import { useOtpRequest } from "../../hooks/verification/useOtpRequest";
 
 const OtpVerification = ({ handleVerifyOtp, handleChangeEmail }) => { //TODO: #2 add otprequest errors
 

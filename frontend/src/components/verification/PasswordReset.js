@@ -1,24 +1,19 @@
 import React from "react";
 import { Formik, Form, Field, ErrorMessage } from "formik";
-import { useSignup } from "../../hooks/authentication/useSignup"; 
 import * as Yup from "yup";
-import useVerificationContext from "../../hooks/context/useVerificationContext";
+import { usePasswordReset } from "../../hooks/authentication/userPasswordReset";
 
 
 
 
-const Signup = () => {
-  const { verification } = useVerificationContext();
+const PasswordReset = () => {
   const initialValues = {
-    username: "",
     password: "",
     confirmPassword: "",
   };
-  const { signup, error, isLoading } = useSignup();
+  const { passwordReset, error, isLoading } = usePasswordReset();
 
   const validationSchema = Yup.object().shape({
-    username: Yup.string()
-      .required("Username is required"),
     password: Yup.string()
       .min(6, "Password must be at least 6 characters")
       .required("Password is required"),
@@ -32,8 +27,7 @@ const Signup = () => {
     setSubmitting(false);
 
     try {
-      console.log(values.username, values.password)
-      await signup(values.username, values.password);
+      await passwordReset(values.password);
     } catch (error) {
       console.error("Signup failed:", error);
     }
@@ -41,10 +35,8 @@ const Signup = () => {
 
   return (
     <div>
-      <h2>Register</h2>
-      <h4>{verification.user.id}</h4>
-      <h4>{verification.user.email}</h4>
-
+      <p>Reset your password here.</p>
+      
       <Formik
         initialValues={initialValues}
         validationSchema={validationSchema}
@@ -52,11 +44,6 @@ const Signup = () => {
       >
         {({ isSubmitting }) => (
           <Form>
-            <div>
-              <label htmlFor="username">Username</label>
-              <Field type="username" name="username" />
-              <ErrorMessage name="username" component="div" />
-            </div>
             <div>
               <label htmlFor="password">Password</label>
               <Field type="password" name="password" />
@@ -78,4 +65,4 @@ const Signup = () => {
   );
 };
 
-export default Signup;
+export default PasswordReset;

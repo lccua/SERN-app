@@ -1,6 +1,6 @@
 export const verificationReducer = (state, action) => {
   switch (action.type) {
-    case "SET_EMAIL":
+    case "SET_VERIFICATION":
       return {
         verification: action.payload,
       };

@@ -3,8 +3,6 @@ import { verificationReducer } from '../reducer/verificationReducer'
 
 export const VerificationContext = createContext()
 
-
-
 export const VerificationContextProvider = ({ children }) => {
   const [state, dispatch] = useReducer(verificationReducer, {
     verification: null
