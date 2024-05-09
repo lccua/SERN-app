@@ -1,21 +1,41 @@
-import React from "react";
-import useConversation from "../../../hooks/zustand/useConversation";
-import "./Sidebar.css";
-import useMessage from "../../../hooks/zustand/useMessage";
+import React, { useState } from 'react';
+import Popup from './Popup.js'; // Replace './Popup.js' with the actual path to your Popup component
+import { useCreateConversation } from '../../../hooks/conversation/useCreateConversastion.js';
 
 const NewConversationButton = () => {
-  const { setSelectedConversation } = useConversation();
-  const { setMessages } = useMessage();
+  // state
+  const [buttonPopup, setButtonPopup] = useState(false);
+  const [conversationName, setConversationName] = useState('');
 
+  // custom hooks
+  const { createConversation } = useCreateConversation();
 
-  const handleClick = () => {
-    setSelectedConversation(null);
-    setMessages([])
-   
+  const handleCreateConversation = async () => {
+
+    await createConversation(conversationName)
+
+    // Close the popup
+    setButtonPopup(false);
+
+    // Reset conversationName
+    setConversationName('');
   };
 
   return (
-    <button onClick={handleClick}>New Conversation</button>
+    <>
+      <button onClick={() => setButtonPopup(true)}>Create a conversation</button>
+      <Popup trigger={buttonPopup} setTrigger={setButtonPopup}>
+        <h3>Create a conversation</h3>
+        <p>Please name your conversation:</p>
+        <input 
+          type="text" 
+          value={conversationName} 
+          onChange={(e) => setConversationName(e.target.value)} 
+          placeholder="E.g. Relationships, Goals" 
+        />
+        <button onClick={handleCreateConversation}>Create conversation</button>
+      </Popup>
+    </>
   );
 };
 

@@ -30,8 +30,11 @@ const createConversation = async (req, res) => {
 
     const userId = req.user.id; // Assuming req.user has the user ID
 
+    const { conversationName } = req.body;
 
-    const conversation = await conversationService.createConversation(  userId  );
+
+
+    const conversation = await conversationService.createConversation(  {userId, conversationName}  );
 
     req.conversation = conversation;
 

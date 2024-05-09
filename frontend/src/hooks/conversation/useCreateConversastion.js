@@ -14,12 +14,15 @@ export const useCreateConversation = () => {
   const { setSelectedConversation, setNewConversation } = useConversation();
 
 
-  const createConversation = async () => {
+  const createConversation = async (conversationName) => {
     setIsLoading(true);
     setError(null);
 
+    const conversationData = { conversationName }
+
     const response = await fetch('/api/conversations', {
       method: 'POST',
+      body: JSON.stringify(conversationData),
       headers: {
         'Content-Type': 'application/json',
         'Authorization': `Bearer ${user.token}`
