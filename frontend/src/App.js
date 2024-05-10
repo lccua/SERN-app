@@ -23,6 +23,8 @@ function App() {
                 )
               }
             />
+
+            <Route path="/conversations/:conversationId" element={<Home/>}/>
             <Route
               path="/login"
               element={!user ? <Login /> : <Navigate to="/" />}

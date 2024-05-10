@@ -18,6 +18,18 @@ class ConversationService {
     }
   }
 
+  async getConversation( conversationId ) {
+      
+      try {
+        const conversation = await conversationDb.getConversation( conversationId );
+  
+        return conversation;
+  
+      } catch (error) {
+        throw new ErrorHandler(error.statusCode, error.message);
+      }
+  }
+
  
 
   async createConversation(  {userId, conversationName}  ) {

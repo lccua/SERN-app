@@ -20,6 +20,21 @@ const getAllConversations = async (req, res) => {
 
 };
 
+const getConversation = async (req, res) => {
+  try {
+
+    const { conversationId } = req.params;
+
+    const conversation = await conversationService.getConversation( conversationId );
+
+    res.status(200).json(conversation);
+
+  } catch (error) {
+    throw new ErrorHandler(error.statusCode, error.message);
+  }
+
+}
+
 
 
 
@@ -83,5 +98,6 @@ module.exports = {
   getAllConversations,
   createConversation,
   deleteConversation,
-  updateConversation
+  updateConversation,
+  getConversation
 };

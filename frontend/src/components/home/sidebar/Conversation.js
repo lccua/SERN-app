@@ -1,17 +1,11 @@
 import React from "react";
-import useConversation from "../../../hooks/zustand/useConversation";
+import { Link } from "react-router-dom";
 
 const Conversation = ({ conversation }) => {
-	const { setSelectedConversation } = useConversation();
-
-  const handleClick = () => {
-    setSelectedConversation(conversation);
-  };
-
   return (
-    <div onClick={handleClick}>
+    <Link to={`/conversations/${conversation.id}`}>
       <p>{conversation.name}</p>
-    </div>
+    </Link>
   );
 };
 

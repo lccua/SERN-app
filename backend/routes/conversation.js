@@ -5,6 +5,7 @@ const {
   createConversation,
   deleteConversation,
   updateConversation,
+  getConversation,
 } = require("../controllers/conversation.controller");
 
 const requireAuth = require("../middleware/requireAuth");
@@ -17,6 +18,9 @@ router.use(requireAuth);
 
 // GET all conversation
 router.get("/", getAllConversations);
+
+// GET conversation by id
+router.get("/:conversationId", getConversation);
 
 // POST a new conversation
 router.post("/", createConversation);

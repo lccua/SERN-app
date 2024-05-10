@@ -14,6 +14,17 @@ class ConversationDb {
     }
   }
 
+  async getConversation(conversationId) {
+    try {
+      const conversation = await prisma.conversation.findUnique({
+        where: { id: conversationId },
+      });
+      return conversation;
+    } catch (error) {
+      throw new ErrorHandler(error.statusCode, error.message);
+    }
+  }
+
   async createConversation({ conversationData }) {
     try {
       const { conversationId, conversationName, userId } = conversationData;
