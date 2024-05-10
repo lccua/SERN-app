@@ -1,22 +1,27 @@
 import { useEffect, useState } from "react";
 import useAuthContext from "../context/useAuthContext";
 import useConversation from "../zustand/useConversation";
+import { useParams } from "react-router-dom";
 
-export const useGetConversations = () => {
+export const useGetConversation = () => {
   // loading and error state
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState(null);
 
   // context
   const { user } = useAuthContext();
-  const { setConversations, conversations } = useConversation();
+  const { setSelectedConversation, selectedConversation } = useConversation();
+
+  // react router
+  const { conversationId } = useParams();
+  
 
   useEffect(() => {
-    const getConversations = async () => {
+    const getConversation = async () => {
       setIsLoading(true);
       setError(null);
 
-      const response = await fetch("/api/conversations", {
+      const response = await fetch(`/api/conversations/${conversationId}`, {
         headers: {
           Authorization: `Bearer ${user.token}`,
         },
@@ -30,16 +35,15 @@ export const useGetConversations = () => {
       }
 
       if (response.ok) {
-        // set the conversations only if they are not already set
-        setConversations(responseJson)
+        setSelectedConversation(responseJson)
       }
 
       setIsLoading(false);
     };
-    if (user !== null) {
-      getConversations();
+    if (conversationId && user !== null) {
+      getConversation();
     }
-  }, [setConversations, user]);
+  }, [conversationId, setSelectedConversation, user]);
 
-  return { isLoading, error, conversations };
+  return { isLoading, error, selectedConversation };
 };

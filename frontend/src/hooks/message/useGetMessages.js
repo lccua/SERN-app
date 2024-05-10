@@ -1,8 +1,10 @@
 import { useEffect, useState } from "react";
 
+import { useParams } from "react-router-dom";
+
 import useAuthContext from "../context/useAuthContext";
-import useConversation from "../zustand/useConversation";
 import useMessage from "../zustand/useMessage";
+
 
 
 const useGetMessages = () => {
@@ -10,11 +12,12 @@ const useGetMessages = () => {
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState(null);
 
-  //context
+  //custom hooks context
   const { user } = useAuthContext();
-  const { selectedConversation } = useConversation();
   const { setMessages, messages } = useMessage();
 
+  //react router
+  const { conversationId } = useParams();
 
   useEffect(() => {
 
@@ -22,7 +25,7 @@ const useGetMessages = () => {
       setIsLoading(true);
       setError(null);
 
-      const response = await fetch(`/api/messages/${selectedConversation.id}`, {
+      const response = await fetch(`/api/messages/${conversationId}`, {
         headers: {
           Authorization: `Bearer ${user.token}`,
         },
@@ -41,11 +44,11 @@ const useGetMessages = () => {
       }
     };
 
-    if (selectedConversation){
+    if (conversationId && user !== null){
       getMessages();
     }
 
-  }, [selectedConversation, setMessages, user]);
+  }, [conversationId, setMessages, user]);
 
   return { isLoading, error, messages };
 };

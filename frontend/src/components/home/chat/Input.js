@@ -1,9 +1,5 @@
 import React, { useState } from 'react';
-
 import { useSendMessage } from '../../../hooks/message/useSendMessage';
-import { useCreateConversation } from '../../../hooks/conversation/useCreateConversastion.js';
-
-import useMessage from '../../../hooks/zustand/useMessage.js';
 import useConversation from '../../../hooks/zustand/useConversation.js';
 
 import "./Chat.css"
@@ -16,11 +12,9 @@ const Input = () => {
 
   //custom hooks
   const { isLoading, sendMessage } = useSendMessage();
-  const { createConversation } = useCreateConversation();
 
   // zustand 
   const { selectedConversation } = useConversation();
-  const { messages } = useMessage();
 
 
   const toggleSwitch = () => {
@@ -31,21 +25,11 @@ const Input = () => {
     setNewMessage(e.target.value);
   };
 
-  const handleSendMessage = async (e) => {
-    e.preventDefault();
+  const handleSendMessage = async () => {
     if (newMessage.trim() === "") return;
   
-    let newConversation;
-  
-    if (messages.length === 0) {
-      // If there's no conversation messages, create a new conversation
-      newConversation = await createConversation();
-    } else {
-      newConversation = selectedConversation;
-    }
-  
     // Send the message
-    await sendMessage(newConversation.id, newMessage, isFuture);
+    await sendMessage(selectedConversation.id, newMessage, isFuture);
   
     // Clear the input field and toggle state
     setNewMessage("");
@@ -53,7 +37,6 @@ const Input = () => {
   };
   
 
-  
 
 
   return (
@@ -68,6 +51,12 @@ const Input = () => {
           value={newMessage}
           onChange={handleMessageChange}
           placeholder="Type your message..."
+          onKeyDown={(e) => {
+            if (e.key === "Enter") {
+              e.preventDefault(); // Prevent form submission
+              handleSendMessage();
+            }
+          }}
         />
         <button onClick={handleSendMessage} disabled={!newMessage.trim()}>
           {isLoading ? "is sending..." : "Send"}

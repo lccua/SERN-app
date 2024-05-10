@@ -14,15 +14,26 @@ class ConversationDb {
     }
   }
 
+  async getConversation(conversationId) {
+    try {
+      const conversation = await prisma.conversation.findUnique({
+        where: { id: conversationId },
+      });
+      return conversation;
+    } catch (error) {
+      throw new ErrorHandler(error.statusCode, error.message);
+    }
+  }
+
   async createConversation({ conversationData }) {
     try {
-      const { conversationId, name, userId } = conversationData;
+      const { conversationId, conversationName, userId } = conversationData;
       const conversation = await prisma.conversation.create({
         data: {
           id: conversationId,
-          name: name,
+          name: conversationName,
           created_at: new Date(),
-          user: { connect: { id: userId } } // Connect the workout to the user
+          user: { connect: { id: userId } } 
         }
       });
       return conversation;

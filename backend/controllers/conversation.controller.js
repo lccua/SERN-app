@@ -20,6 +20,21 @@ const getAllConversations = async (req, res) => {
 
 };
 
+const getConversation = async (req, res) => {
+  try {
+
+    const { conversationId } = req.params;
+
+    const conversation = await conversationService.getConversation( conversationId );
+
+    res.status(200).json(conversation);
+
+  } catch (error) {
+    throw new ErrorHandler(error.statusCode, error.message);
+  }
+
+}
+
 
 
 
@@ -30,8 +45,11 @@ const createConversation = async (req, res) => {
 
     const userId = req.user.id; // Assuming req.user has the user ID
 
+    const { conversationName } = req.body;
 
-    const conversation = await conversationService.createConversation(  userId  );
+
+
+    const conversation = await conversationService.createConversation(  {userId, conversationName}  );
 
     req.conversation = conversation;
 
@@ -80,5 +98,6 @@ module.exports = {
   getAllConversations,
   createConversation,
   deleteConversation,
-  updateConversation
+  updateConversation,
+  getConversation
 };

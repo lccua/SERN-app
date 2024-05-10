@@ -1,12 +1,11 @@
-import useConversation from "../../../hooks/zustand/useConversation";
+import { useGetConversation } from "../../../hooks/conversation/useGetConversation";
 import "./Chat.css"
 
 
 const ChatHeader = () => {
-  //context hook
-  const { selectedConversation } = useConversation();
-
-
+  //custom hook
+  const { selectedConversation } = useGetConversation(); //todo: loading and error state
+  
   return (
     <div className="chat-header">
         <h1>

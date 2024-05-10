@@ -1,5 +1,5 @@
 const Message = ({ message }) => {
-  const chatClassName = message.IsFuture ? "future-me": "";
+  const chatClassName = message.is_future ? "future-me": "";
 
   return (
     <div className={`chat-msg ${chatClassName}`}>

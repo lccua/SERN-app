@@ -1,7 +1,10 @@
 import { useState } from "react";
 
+import { useNavigate } from "react-router-dom";
+
 import useAuthContext from "../context/useAuthContext";
 import useConversation from "../zustand/useConversation";
+import useMessage from "../zustand/useMessage";
 
 
 export const useCreateConversation = () => {
@@ -11,15 +14,22 @@ export const useCreateConversation = () => {
 
   //context
   const { user } = useAuthContext();
-  const { setSelectedConversation, setNewConversation } = useConversation();
+  const { setNewConversation } = useConversation();
+  const { setMessages } = useMessage();
+
+  // react-router history
+  const navigate = useNavigate();
 
 
-  const createConversation = async () => {
+  const createConversation = async (conversationName) => {
     setIsLoading(true);
     setError(null);
 
+    const conversationData = { conversationName }
+
     const response = await fetch('/api/conversations', {
       method: 'POST',
+      body: JSON.stringify(conversationData),
       headers: {
         'Content-Type': 'application/json',
         'Authorization': `Bearer ${user.token}`
@@ -33,10 +43,13 @@ export const useCreateConversation = () => {
     }
 
     if (response.ok) {
-      setIsLoading(false);
       setNewConversation(responseJson);
-      setSelectedConversation(responseJson);
-      return responseJson;
+
+      // update the URL with the new conversationId
+      navigate(`/conversations/${responseJson.id}`);
+      setMessages([])
+
+      setIsLoading(false);
     }
   };
 
