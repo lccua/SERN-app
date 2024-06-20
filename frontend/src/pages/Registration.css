@@ -1,0 +1,42 @@
+.registration-container {
+  width: 80%;
+  margin: 0 auto;
+  padding: 20px;
+  background-color: #fff;
+  border-radius: 8px;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+}
+
+.steps-container {
+  background: #f0f0f0;
+  padding: 10px;
+  margin-bottom: 20px;
+  border-radius: 5px;
+}
+
+.steps-list {
+  display: flex;
+  list-style: none;
+  padding: 0;
+}
+
+.step-item {
+  margin-right: 50px;
+  cursor: pointer;
+}
+
+.step-item.active {
+  font-weight: bold;
+}
+
+.step-content {
+  padding: 20px;
+}
+
+.step-panel {
+  display: none;
+}
+
+.step-panel.active {
+  display: block;
+}

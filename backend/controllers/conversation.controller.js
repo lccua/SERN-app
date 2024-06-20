@@ -47,8 +47,6 @@ const createConversation = async (req, res) => {
 
     const { conversationName } = req.body;
 
-
-
     const conversation = await conversationService.createConversation(  {userId, conversationName}  );
 
     req.conversation = conversation;

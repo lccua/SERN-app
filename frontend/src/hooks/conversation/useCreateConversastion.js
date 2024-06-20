@@ -25,6 +25,8 @@ export const useCreateConversation = () => {
     setIsLoading(true);
     setError(null);
 
+    console.log("tsetstst: " + conversationName);
+
     const conversationData = { conversationName }
 
     const response = await fetch('/api/conversations', {

@@ -4,7 +4,6 @@ import useAuthContext from "./hooks/context/useAuthContext";
 import Login from "./pages/Login";
 import Registration from "./pages/Registration";
 import ForgotPassword from "./pages/ForgotPassword";
-import Chat from "./components/home/chat/Chat.js";
 import Home from "./pages/Home.js";
 
 function App() {
