@@ -1,0 +1,46 @@
+.chat-msg-container {
+  display: flex;
+  align-items: center;
+  margin-bottom: 30px; /* Add margin between messages */
+  margin-top: 30px;
+}
+
+.chat-msg {
+  background-color: #e5e5ea; /* Default message bubble color */
+  padding: 10px 15px;
+  border-radius: 20px; /* Adjust for more rounded corners */
+  display: flex;
+  align-items: center;
+  max-width: 78%; /* Adjust the width of the message bubble */
+}
+
+.future-me .chat-msg {
+  background-color: #ff7900; /* Message bubble color for 'future-me' */
+  color: #fff;
+}
+
+.icon {
+  width: 35px; /* Adjust the size as needed */
+  height: 35px; /* Adjust the size as needed */
+  margin-right: 10px; /* Space between the icon and the message text */
+}
+
+.control-panel-container {
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+  margin-left: 10px;
+  gap: 5px;
+
+}
+
+.control-panel-icon {
+  width: 23px;
+  height: 23px;
+  cursor: pointer;
+}
+
+
+
+

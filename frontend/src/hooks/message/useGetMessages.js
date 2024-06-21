@@ -32,11 +32,12 @@ const useGetMessages = () => {
       });
       const responseJson = await response.json();
 
+      
       if (!response.ok) {
         setIsLoading(false);
         setError(responseJson.error);
       }
-
+      
       if (response.ok) {
         // setting the messages we retrieved from the db
         setMessages(responseJson)

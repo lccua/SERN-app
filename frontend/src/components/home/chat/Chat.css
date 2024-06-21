@@ -4,7 +4,6 @@
   flex-direction: column;
   justify-content: center; /* Align the chat container vertically in the middle */
   width: 100%;
-  
 }
 
 .chat {
@@ -18,28 +17,7 @@
   display: flex;
   align-items: center;
   justify-content: center;
-
 }
-
-.chat-msg {
-  background-color: #e5e5ea; /* Default message bubble color */
-  padding: 10px 15px;
-  border-radius: 20px; /* Adjust for more rounded corners */
-  margin-bottom: 10px; /* Add margin between messages */
-  margin-top: 10px;
-}
-
-.future-me {
-  background-color: #ff7900; /* Message bubble color for 'future-me' */
-  color: #fff ;
-}
-
-
-.future-me {
-  background-color: #ff7900; /* Message bubble color */
- 
-}
-
 
 
 
@@ -51,7 +29,7 @@
   align-items: center;
   justify-content: center; /* Align the chat container vertically in the middle */
   position: sticky; /* Make the input container sticky */
-  top: 0; /* Stick the input container to the bottom */
+  top: 0; /* Stick the input container to the top */
 }
 
 .input-container {
@@ -69,10 +47,7 @@
   flex-direction: row;
   padding: 10px;
   width: 50vw;
-
 }
-
-
 
 input[type="text"] {
   flex: 1;
@@ -91,9 +66,8 @@ button {
   cursor: pointer;
 }
 
-
-
 .button-disabled {
   background-color: #ccc; /* Grey out the button */
   cursor: default; /* Change cursor to indicate not clickable */
 }
+

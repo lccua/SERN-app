@@ -2,11 +2,12 @@ const express = require("express");
 
 const {
   getAllMessagesByConversationId,
-  createMessage
+  createMessage,
+  deleteMessage
+  
 } = require("../controllers/message.controller");
 
 const requireAuth = require("../middleware/requireAuth");
-
 
 const router = express.Router();
 
@@ -18,5 +19,10 @@ router.get("/:conversationId", getAllMessagesByConversationId); // Specify the c
 
 // POST message
 router.post("/", createMessage )
+
+// POST message
+router.delete("/:messageId", deleteMessage )
+
+
 
 module.exports = router;

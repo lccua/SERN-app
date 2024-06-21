@@ -1,7 +1,6 @@
 const prisma = require("./client/prismaClient");
 const { ErrorHandler } = require("../helpers/error.helper");
 
-
 class MessageDb {
   async getAllMessagesByConversationId(conversationId) {
     try {
@@ -14,17 +13,16 @@ class MessageDb {
     }
   }
 
-  async createMessage( { messageData }  ) {
+  async createMessage({ messageData }) {
     try {
       const { messageId, messageContent, isFuture, conversationId } = messageData;
-
       const message = await prisma.message.create({
         data: {
           id: messageId,
           content: messageContent,
           sent_at: new Date(),
-          is_future: isFuture, // moet true or false worden
-          conversation: { connect: { id: conversationId } } // Connect the message to the conversation
+          is_future: isFuture,
+          conversation: { connect: { id: conversationId } }
         }
       });
       return message;
@@ -33,8 +31,16 @@ class MessageDb {
     }
   }
 
-
-
+  async deleteMessage(messageId) {
+    try {
+      const deletedMessage = await prisma.message.delete({
+        where: { id: messageId },
+      });
+      return deletedMessage;
+    } catch (error) {
+      throw new ErrorHandler(error.statusCode, error.message);
+    }
+  }
 }
 
 module.exports = new MessageDb();
